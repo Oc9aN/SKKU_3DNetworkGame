@@ -59,6 +59,8 @@ public class PlayerMoveAbility : MonoBehaviour
         float hAnimation = Input.GetAxis("Horizontal");
         float vAnimation = Input.GetAxis("Vertical");
         float moveAmount = new Vector2(hAnimation, vAnimation).magnitude; // 입력 기반
-        _animator.SetFloat("Movement", moveAmount);
+        _animator.SetBool("IsIdle", moveAmount < 0.1f);
+        _animator.SetFloat("MoveX", hAnimation);
+        _animator.SetFloat("MoveY", vAnimation);
     }
 }
