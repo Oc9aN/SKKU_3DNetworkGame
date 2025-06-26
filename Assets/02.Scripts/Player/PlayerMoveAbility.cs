@@ -22,14 +22,11 @@ public class PlayerMoveAbility : MonoBehaviour
         float v = Input.GetAxisRaw("Vertical");
 
         // 카메라 기준 방향
-        Vector3 camForward = Camera.main.transform.forward;
-        Vector3 camRight = Camera.main.transform.right;
-        camForward.y = 0f;
-        camRight.y = 0f;
-        camForward.Normalize();
-        camRight.Normalize();
-
-        Vector3 moveDir = (camForward * v + camRight * h).normalized;
+        Vector3 dir = new Vector3(h, 0, v);
+        dir = dir.normalized; // = dir.Normalize();
+    
+        // 카메라가 바라보는 방향 기준으로 수정하기
+        dir = Camera.main.transform.TransformDirection(dir);
 
         // 점프 및 중력
         if (_characterController.isGrounded)
@@ -52,10 +49,10 @@ public class PlayerMoveAbility : MonoBehaviour
             _animator.SetBool("Fall", _yVelocity < 0);
         }
 
-        moveDir.y = _yVelocity;
+        dir.y = _yVelocity;
 
         // 이동
-        _characterController.Move(moveDir * MoveSpeed * Time.deltaTime);
+        _characterController.Move(dir * MoveSpeed * Time.deltaTime);
         
         _animator.SetBool("IsGround", _characterController.isGrounded);
         
