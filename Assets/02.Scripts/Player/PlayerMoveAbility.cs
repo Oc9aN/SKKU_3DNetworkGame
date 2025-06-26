@@ -1,10 +1,7 @@
 using UnityEngine;
 
-public class PlayerMoveAbility : MonoBehaviour
+public class PlayerMoveAbility : PlayerAbility
 {
-    public float MoveSpeed = 7f;
-    public float JumpPower = 7f;
-    public float Gravity = 9.8f;
     private Animator _animator;
     private CharacterController _characterController;
 
@@ -18,6 +15,11 @@ public class PlayerMoveAbility : MonoBehaviour
 
     private void Update()
     {
+        if (!_player.State.Is(EPlayerState.Idle))
+        {
+            return;
+        }
+        
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
 
@@ -35,7 +37,7 @@ public class PlayerMoveAbility : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 _animator.SetBool("Jump", true);
-                _yVelocity = JumpPower;
+                _yVelocity = _player.Stat.JumpPower;
             }
             else
             {
@@ -45,14 +47,14 @@ public class PlayerMoveAbility : MonoBehaviour
         }
         else
         {
-            _yVelocity -= Gravity * Time.deltaTime;
+            _yVelocity += Physics.gravity.y * Time.deltaTime;
             _animator.SetBool("Fall", _yVelocity < 0);
         }
 
         dir.y = _yVelocity;
 
         // 이동
-        _characterController.Move(dir * MoveSpeed * Time.deltaTime);
+        _characterController.Move(dir * _player.Stat.MoveSpeed * Time.deltaTime);
         
         _animator.SetBool("IsGround", _characterController.isGrounded);
         

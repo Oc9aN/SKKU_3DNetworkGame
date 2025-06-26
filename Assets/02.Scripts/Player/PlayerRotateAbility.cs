@@ -1,10 +1,9 @@
 using System;
 using UnityEngine;
 
-public class PlayerRotateAbility : MonoBehaviour
+public class PlayerRotateAbility : PlayerAbility
 {
     public Transform CameraRoot;
-    public float RotationSpeed = 10f;
     
     // 마우스 누적
     private float _mx;
@@ -21,8 +20,8 @@ public class PlayerRotateAbility : MonoBehaviour
         float mouseX = Input.GetAxisRaw("Mouse X");
         float mouseY = Input.GetAxisRaw("Mouse Y");
         
-        _mx += mouseX * RotationSpeed * Time.deltaTime;
-        _my += mouseY * RotationSpeed * Time.deltaTime;
+        _mx += mouseX * _player.Stat.RotationSpeed * Time.deltaTime;
+        _my += mouseY * _player.Stat.RotationSpeed * Time.deltaTime;
         
         _my = Mathf.Clamp(_my, -90f, 90f);
         
