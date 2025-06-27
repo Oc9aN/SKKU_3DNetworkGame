@@ -70,7 +70,8 @@ public class PlayerMoveAbility : PlayerAbility, IPunObservable
         if (_characterController.isGrounded)
         {
             _animator.SetBool("Fall", false);
-            if (Input.GetKeyDown(KeyCode.Space))
+            var jumpStaminaCost = _player.PlayerStat.JumpStamina;
+            if (Input.GetKeyDown(KeyCode.Space) && _player.PlayerStat.TryUseStamina(jumpStaminaCost))
             {
                 _animator.SetBool("Jump", true);
                 _yVelocity = _player.PlayerStat.JumpPower;

@@ -20,7 +20,7 @@ public class Player : MonoBehaviour
     {
         if (PlayerState.Is(EPlayerState.Idle))
         {
-            float staminaRecoverAmount = PlayerStat.Stamina * Time.deltaTime;
+            float staminaRecoverAmount = PlayerStat.StaminaRecovery * Time.deltaTime;
             PlayerStat.StaminaRecover(staminaRecoverAmount);
         }
     }

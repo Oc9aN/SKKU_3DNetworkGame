@@ -14,7 +14,7 @@ public class PlayerAttackAbility : PlayerAbility
         {
             return;
         }
-        
+
         _animator = GetComponent<Animator>();
         _characterController = GetComponent<CharacterController>();
     }
@@ -25,9 +25,13 @@ public class PlayerAttackAbility : PlayerAbility
         {
             return;
         }
-        
+
         _attackTimer += Time.deltaTime;
-        if (_attackTimer >= (1f / _player.PlayerStat.AttackSpeed) && Input.GetMouseButtonDown(0) && _characterController.isGrounded)
+        var attackStaminaCost = _player.PlayerStat.AttackStamina;
+        if (_attackTimer >= (1f / _player.PlayerStat.AttackSpeed)
+            && Input.GetMouseButtonDown(0)
+            && _characterController.isGrounded
+            && _player.PlayerStat.TryUseStamina(attackStaminaCost))
         {
             // 공격 1~3 랜덤 공격
             int random = UnityEngine.Random.Range(1, 4);

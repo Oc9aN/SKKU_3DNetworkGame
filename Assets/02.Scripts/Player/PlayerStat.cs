@@ -56,12 +56,22 @@ public class PlayerStat
     private float _jumpPower;
 
     public float JumpPower => _jumpPower;
+    
+    [SerializeField]
+    private float _jumpStamina;
+
+    public float JumpStamina => _jumpStamina;
 
     // ──────────────── 전투 관련 ────────────────
     [SerializeField]
     private float _attackSpeed;
 
     public float AttackSpeed => _attackSpeed;
+
+    [SerializeField]
+    private float _attackStamina;
+
+    public float AttackStamina => _attackStamina;
 
     // ──────────────── 이벤트 ────────────────
     public event Action<PlayerStat> OnDataChanged;

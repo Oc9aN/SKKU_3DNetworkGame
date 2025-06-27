@@ -553,7 +553,9 @@ MonoBehaviour:
     _runSpeed: 14
     _rotationSpeed: 200
     _jumpPower: 2.5
+    _jumpStamina: 10
     _attackSpeed: 1.2
+    _attackStamina: 20
 --- !u!114 &7934229273749307748
 MonoBehaviour:
   m_ObjectHideFlags: 0
