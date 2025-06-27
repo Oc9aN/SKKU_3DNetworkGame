@@ -8,6 +8,9 @@ public class PlayerMoveAbility : PlayerAbility, IPunObservable
 
     private float _yVelocity;
 
+    // private Vector3 _receivedPosition;
+    // private Quaternion _receiveQuaternion;
+
     private void Start()
     {
         if (!_photonView.IsMine)
@@ -23,6 +26,9 @@ public class PlayerMoveAbility : PlayerAbility, IPunObservable
     {
         if (!_photonView.IsMine)
         {
+            // 수동 동기화
+            // transform.position = Vector3.Lerp(transform.position, _receivedPosition, Time.deltaTime * 20f);
+            // transform.rotation = Quaternion.Lerp(transform.rotation, _receiveQuaternion, Time.deltaTime * 20f);
             return;
         }
         
@@ -86,18 +92,15 @@ public class PlayerMoveAbility : PlayerAbility, IPunObservable
         {
             // 내 데이터만 전송
             // 데이터를 전송하는 상황 -> 데이터 보내기
-            stream.SendNext(transform.position);
-            stream.SendNext(transform.rotation);
+            // stream.SendNext(transform.position);
+            // stream.SendNext(transform.rotation);
         }
         else if (stream.IsReading)
         {
             // 내가 아닌 데이터만 수신
             // 데이터를 수신하는 상황 -> 받은 데이터 셋팅
-            Vector3 receivedPosition = (Vector3)stream.ReceiveNext();
-            Quaternion receiveQuaternion = (Quaternion)stream.ReceiveNext();
-
-            transform.position = receivedPosition;
-            transform.rotation = receiveQuaternion;
+            // _receivedPosition = (Vector3)stream.ReceiveNext();
+            // _receiveQuaternion = (Quaternion)stream.ReceiveNext();
         }
     }
 }
