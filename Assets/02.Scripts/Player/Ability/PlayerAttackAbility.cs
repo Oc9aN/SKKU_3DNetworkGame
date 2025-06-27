@@ -6,15 +6,28 @@ public class PlayerAttackAbility : PlayerAbility
     private float _attackTimer;
     private Animator _animator;
 
+    private CharacterController _characterController;
+
     private void Start()
     {
+        if (!_photonView.IsMine)
+        {
+            return;
+        }
+        
         _animator = GetComponent<Animator>();
+        _characterController = GetComponent<CharacterController>();
     }
 
     private void Update()
     {
+        if (!_photonView.IsMine)
+        {
+            return;
+        }
+        
         _attackTimer += Time.deltaTime;
-        if (_attackTimer >= (1f / _player.PlayerStat.AttackSpeed) && Input.GetMouseButtonDown(0))
+        if (_attackTimer >= (1f / _player.PlayerStat.AttackSpeed) && Input.GetMouseButtonDown(0) && _characterController.isGrounded)
         {
             // 공격 1~3 랜덤 공격
             int random = UnityEngine.Random.Range(1, 4);

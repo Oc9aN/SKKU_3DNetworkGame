@@ -14,6 +14,9 @@ public class PhotonServerManager : MonoBehaviourPunCallbacks
     private void Start()
     {
         // 설정
+        // 0. 데이터 송수신 빈도를 매 초당 30회로 설정한다. (기본은 10)
+        PhotonNetwork.SendRate = 60;
+        PhotonNetwork.SerializationRate = 60;
         // 1. 버전 : 버전이 다르면 다른 서버로 접속이 된다.
         PhotonNetwork.GameVersion = _gameVersion;
         // 2. 닉네임 : 게임에서 사용할 사용자의 별명 (중복 가능 -> 판별을 위해서는 UserId)

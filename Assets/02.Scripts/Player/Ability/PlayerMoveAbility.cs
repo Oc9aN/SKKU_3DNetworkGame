@@ -1,6 +1,7 @@
+using Photon.Pun;
 using UnityEngine;
 
-public class PlayerMoveAbility : PlayerAbility
+public class PlayerMoveAbility : PlayerAbility, IPunObservable
 {
     private Animator _animator;
     private CharacterController _characterController;
@@ -9,12 +10,22 @@ public class PlayerMoveAbility : PlayerAbility
 
     private void Start()
     {
+        if (!_photonView.IsMine)
+        {
+            return;
+        }
+        
         _characterController = GetComponent<CharacterController>();
         _animator = GetComponent<Animator>();
     }
 
     private void Update()
     {
+        if (!_photonView.IsMine)
+        {
+            return;
+        }
+        
         if (!_player.PlayerState.Is(EPlayerState.Idle))
         {
             return;
@@ -64,5 +75,29 @@ public class PlayerMoveAbility : PlayerAbility
         _animator.SetBool("IsIdle", moveAmount < 0.1f);
         _animator.SetFloat("MoveX", hAnimation);
         _animator.SetFloat("MoveY", vAnimation);
+    }
+
+    // 데이터 동기화를 할 수 있는 송수신 기능
+    // stream : 서버에서 주고 받을 데이터가 담겨있는 변수
+    // info : 송수진 성공/실패 여부에 대한 로그
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            // 내 데이터만 전송
+            // 데이터를 전송하는 상황 -> 데이터 보내기
+            stream.SendNext(transform.position);
+            stream.SendNext(transform.rotation);
+        }
+        else if (stream.IsReading)
+        {
+            // 내가 아닌 데이터만 수신
+            // 데이터를 수신하는 상황 -> 받은 데이터 셋팅
+            Vector3 receivedPosition = (Vector3)stream.ReceiveNext();
+            Quaternion receiveQuaternion = (Quaternion)stream.ReceiveNext();
+
+            transform.position = receivedPosition;
+            transform.rotation = receiveQuaternion;
+        }
     }
 }
