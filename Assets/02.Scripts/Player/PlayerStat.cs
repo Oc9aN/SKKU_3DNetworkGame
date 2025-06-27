@@ -95,4 +95,11 @@ public class PlayerStat
 
         OnDataChanged?.Invoke(this);
     }
+    
+    public void SetStamina(float stamina)
+    {
+        _stamina = stamina;
+
+        OnDataChanged?.Invoke(this);
+    }
 }

@@ -1,12 +1,15 @@
-public class PlayerPresenter
+using System;
+using UnityEngine;
+
+public class PlayerPresenter : MonoBehaviour
 {
     private Player _player;
     private PlayerView _playerView;
 
-    public PlayerPresenter(Player player, PlayerView playerView)
+    private void Start()
     {
-        _player = player;
-        _playerView = playerView;
+        _player = GetComponent<Player>();
+        _playerView = GetComponent<PlayerView>();
         
         _player.PlayerStat.OnDataChanged += _playerView.Refresh;
     }
