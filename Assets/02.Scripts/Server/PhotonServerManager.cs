@@ -53,6 +53,7 @@ public class PhotonServerManager : MonoBehaviourPunCallbacks
         PhotonNetwork.JoinRandomRoom();
     }
 
+    // 방 입장 후 호출되는 함수
     public override void OnJoinedRoom()
     {
         Debug.Log($"방 입장 {PhotonNetwork.InRoom} : {PhotonNetwork.CurrentRoom.Name}");
@@ -67,6 +68,8 @@ public class PhotonServerManager : MonoBehaviourPunCallbacks
             // 진짜 고유 아이디
             Debug.Log($"{pair.Value.UserId}"); // 유저의 고유 아이디
         }
+        
+        PhotonNetwork.Instantiate("Player_Prefab", Vector3.zero, Quaternion.identity);
     }
 
     // 방 입장에 실패하면 호출되는 함수
