@@ -20,8 +20,8 @@ public class PlayerRotateAbility : PlayerAbility
         float mouseX = Input.GetAxisRaw("Mouse X");
         float mouseY = Input.GetAxisRaw("Mouse Y");
         
-        _mx += mouseX * _player.Stat.RotationSpeed * Time.deltaTime;
-        _my += mouseY * _player.Stat.RotationSpeed * Time.deltaTime;
+        _mx += mouseX * _player.PlayerStat.RotationSpeed * Time.deltaTime;
+        _my += mouseY * _player.PlayerStat.RotationSpeed * Time.deltaTime;
         
         _my = Mathf.Clamp(_my, -90f, 90f);
         

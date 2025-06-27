@@ -15,7 +15,7 @@ public class PlayerMoveAbility : PlayerAbility
 
     private void Update()
     {
-        if (!_player.State.Is(EPlayerState.Idle))
+        if (!_player.PlayerState.Is(EPlayerState.Idle))
         {
             return;
         }
@@ -37,7 +37,7 @@ public class PlayerMoveAbility : PlayerAbility
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 _animator.SetBool("Jump", true);
-                _yVelocity = _player.Stat.JumpPower;
+                _yVelocity = _player.PlayerStat.JumpPower;
             }
             else
             {
@@ -54,7 +54,7 @@ public class PlayerMoveAbility : PlayerAbility
         dir.y = _yVelocity;
 
         // 이동
-        _characterController.Move(dir * _player.Stat.MoveSpeed * Time.deltaTime);
+        _characterController.Move(dir * _player.PlayerStat.MoveSpeed * Time.deltaTime);
         
         _animator.SetBool("IsGround", _characterController.isGrounded);
         

@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class PlayerAbility : MonoBehaviour
 {
-    protected Player _player;
+    protected Player _player { get; private set; }
 
     protected virtual void Awake()
     {
