@@ -1,7 +1,8 @@
 public enum EPlayerState
 {
     Idle,
-    Attack
+    Attack,
+    Run,
 }
 
 public class PlayerState

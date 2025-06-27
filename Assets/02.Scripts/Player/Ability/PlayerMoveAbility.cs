@@ -32,11 +32,30 @@ public class PlayerMoveAbility : PlayerAbility, IPunObservable
             return;
         }
         
-        if (!_player.PlayerState.Is(EPlayerState.Idle))
+        if (_player.PlayerState.Is(EPlayerState.Attack))
         {
             return;
         }
-        
+
+        Run();
+        Move();
+    }
+
+    private void Run()
+    {
+        float staminaCost = _player.PlayerStat.RunStaminaRate * Time.deltaTime;
+        if (Input.GetKey(KeyCode.LeftShift) && _player.PlayerStat.TryUseStamina(staminaCost))
+        {
+            _player.PlayerState.ChangeState(EPlayerState.Run);
+        }
+        else
+        {
+            _player.PlayerState.ChangeState(EPlayerState.Idle);
+        }
+    }
+
+    private void Move()
+    {
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
 
@@ -71,7 +90,8 @@ public class PlayerMoveAbility : PlayerAbility, IPunObservable
         dir.y = _yVelocity;
 
         // 이동
-        _characterController.Move(dir * _player.PlayerStat.MoveSpeed * Time.deltaTime);
+        float moveSpeed = _player.PlayerState.Is(EPlayerState.Run) ? _player.PlayerStat.RunSpeed : _player.PlayerStat.MoveSpeed;
+        _characterController.Move(dir * (moveSpeed * Time.deltaTime));
         
         _animator.SetBool("IsGround", _characterController.isGrounded);
         

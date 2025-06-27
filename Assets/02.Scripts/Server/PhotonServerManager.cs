@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 // Photon API 네임스페이스
@@ -72,7 +73,7 @@ public class PhotonServerManager : MonoBehaviourPunCallbacks
             Debug.Log($"{pair.Value.UserId}"); // 유저의 고유 아이디
         }
         
-        PhotonNetwork.Instantiate("Player_Prefab", Vector3.zero, Quaternion.identity);
+        PlayerManager.CreatePlayer();
     }
 
     // 방 입장에 실패하면 호출되는 함수

@@ -16,6 +16,15 @@ public class Player : MonoBehaviour
         _abilityCache = new Dictionary<Type, PlayerAbility>();
     }
 
+    private void Update()
+    {
+        if (PlayerState.Is(EPlayerState.Idle))
+        {
+            float staminaRecoverAmount = PlayerStat.Stamina * Time.deltaTime;
+            PlayerStat.StaminaRecover(staminaRecoverAmount);
+        }
+    }
+
     public T GetAbility<T>() where T : PlayerAbility
     {
         if (_abilityCache.TryGetValue(typeof(T), out var ability))

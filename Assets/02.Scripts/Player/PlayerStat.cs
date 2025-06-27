@@ -1,12 +1,88 @@
 using System;
+using UnityEngine;
 
 [Serializable]
 public class PlayerStat
 {
-    public int MaxHealth;
-    public int Health;
-    public float MoveSpeed;
-    public float RotationSpeed;
-    public float JumpPower;
-    public float AttackSpeed;
+    // ──────────────── 체력 관련 ────────────────
+    [SerializeField]
+    private int _maxHealth;
+
+    public int MaxHealth => _maxHealth;
+
+    [SerializeField]
+    private int _health;
+
+    public int Health => _health;
+
+    // ──────────────── 스태미나 관련 ────────────────
+    [SerializeField]
+    private float _maxStamina;
+
+    public float MaxStamina => _maxStamina;
+
+    [SerializeField]
+    private float _stamina;
+
+    public float Stamina => _stamina;
+
+    [SerializeField]
+    private float _staminaRecovery;
+
+    public float StaminaRecovery => _staminaRecovery;
+
+    [SerializeField]
+    private float _runStaminaRate;
+
+    public float RunStaminaRate => _runStaminaRate;
+
+    // ──────────────── 이동 관련 ────────────────
+    [SerializeField]
+    private float _moveSpeed;
+
+    public float MoveSpeed => _moveSpeed;
+
+    [SerializeField]
+    private float _runSpeed;
+
+    public float RunSpeed => _runSpeed;
+
+    [SerializeField]
+    private float _rotationSpeed;
+
+    public float RotationSpeed => _rotationSpeed;
+
+    [SerializeField]
+    private float _jumpPower;
+
+    public float JumpPower => _jumpPower;
+
+    // ──────────────── 전투 관련 ────────────────
+    [SerializeField]
+    private float _attackSpeed;
+
+    public float AttackSpeed => _attackSpeed;
+
+    // ──────────────── 이벤트 ────────────────
+    public event Action<PlayerStat> OnDataChanged;
+
+    // ──────────────── 메서드 ────────────────
+    public bool TryUseStamina(float amount)
+    {
+        if (_stamina - amount < 0)
+            return false;
+
+        _stamina -= amount;
+        OnDataChanged?.Invoke(this);
+        return true;
+    }
+
+    public void StaminaRecover(float amount)
+    {
+        _stamina += amount;
+        if (_stamina > _maxStamina)
+            _stamina = _maxStamina;
+
+        OnDataChanged?.Invoke(this);
+    }
 }
