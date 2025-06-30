@@ -8,9 +8,6 @@ public class PlayerMoveAbility : PlayerAbility
 
     private float _yVelocity;
 
-    // private Vector3 _receivedPosition;
-    // private Quaternion _receiveQuaternion;
-
     private void Start()
     {
         if (!_photonView.IsMine)

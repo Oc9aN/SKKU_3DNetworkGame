@@ -12,28 +12,11 @@ public class Player : MonoBehaviour, IPunObservable
     
     private Dictionary<Type, PlayerAbility> _abilityCache;
     
-    private PhotonView _photonView;
-    
     private void Awake()
     {
         PlayerState = new PlayerState();
         
-        _photonView = GetComponent<PhotonView>();
         _abilityCache = new Dictionary<Type, PlayerAbility>();
-    }
-
-    private void Update()
-    {
-        if (!_photonView.IsMine)
-        {
-            return;
-        }
-        
-        if (PlayerState.Is(EPlayerState.Idle))
-        {
-            float staminaRecoverAmount = _playerStat.StaminaRecovery * Time.deltaTime;
-            _playerStat.StaminaRecover(staminaRecoverAmount);
-        }
     }
 
     public T GetAbility<T>() where T : PlayerAbility

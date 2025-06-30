@@ -400,6 +400,7 @@ GameObject:
   - component: {fileID: 9189672845500468316}
   - component: {fileID: 1534085115585734079}
   - component: {fileID: 2165979925447039453}
+  - component: {fileID: 1771606149362968448}
   - component: {fileID: 3532994814888109085}
   - component: {fileID: 8576339317130911765}
   - component: {fileID: 7934229273749307748}
@@ -548,6 +549,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerMiniMapIcon: {fileID: 6714595438105333480}
   EnemyMiniMapIcon: {fileID: 3562621838873174717}
+--- !u!114 &1771606149362968448
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1693123937880498641}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8f12696a3d7448f8c08a742b479de3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &3532994814888109085
 MonoBehaviour:
   m_ObjectHideFlags: 0

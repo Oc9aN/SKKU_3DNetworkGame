@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerStat
 {
     // ──────────────── 체력 관련 ────────────────
+    [Header("체력")]
     [SerializeField]
     private int _maxHealth;
 
@@ -16,6 +17,7 @@ public class PlayerStat
     public int Health => _health;
 
     // ──────────────── 스태미나 관련 ────────────────
+    [Header("스테미나")]
     [SerializeField]
     private float _maxStamina;
 
@@ -37,6 +39,7 @@ public class PlayerStat
     public float RunStaminaRate => _runStaminaRate;
 
     // ──────────────── 이동 관련 ────────────────
+    [Header("이동")]
     [SerializeField]
     private float _moveSpeed;
 
@@ -63,6 +66,7 @@ public class PlayerStat
     public float JumpStamina => _jumpStamina;
 
     // ──────────────── 전투 관련 ────────────────
+    [Header("전투")]
     [SerializeField]
     private float _attackSpeed;
 
@@ -75,12 +79,16 @@ public class PlayerStat
 
     // ──────────────── 이벤트 ────────────────
     public event Action<PlayerStat> OnDataChanged;
+    public event Action OnStaminaEmpty;
 
     // ──────────────── 메서드 ────────────────
     public bool TryUseStamina(float amount)
     {
         if (_stamina - amount < 0)
+        {
+            OnStaminaEmpty?.Invoke();
             return false;
+        }
 
         _stamina -= amount;
         OnDataChanged?.Invoke(this);
