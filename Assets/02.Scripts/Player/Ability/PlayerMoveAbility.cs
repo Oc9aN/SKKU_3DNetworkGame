@@ -38,11 +38,11 @@ public class PlayerMoveAbility : PlayerAbility
     private void Run()
     {
         float staminaCost = _player.PlayerStat.RunStaminaRate * Time.deltaTime;
-        if (Input.GetKey(KeyCode.LeftShift) && _player.TryUseStamina(staminaCost))
+        if (Input.GetKey(KeyCode.LeftShift) && _player.PlayerStat.TryUseStamina(staminaCost))
         {
             _player.PlayerState.ChangeState(EPlayerState.Run);
         }
-        else
+        else if (Input.GetKeyUp(KeyCode.LeftShift))
         {
             _player.PlayerState.ChangeState(EPlayerState.Idle);
         }
@@ -65,7 +65,7 @@ public class PlayerMoveAbility : PlayerAbility
         {
             _animator.SetBool("Fall", false);
             var jumpStaminaCost = _player.PlayerStat.JumpStamina;
-            if (Input.GetKeyDown(KeyCode.Space) && _player.TryUseStamina(jumpStaminaCost))
+            if (Input.GetKeyDown(KeyCode.Space) && _player.PlayerStat.TryUseStamina(jumpStaminaCost))
             {
                 _animator.SetBool("Jump", true);
                 _yVelocity = _player.PlayerStat.JumpPower;

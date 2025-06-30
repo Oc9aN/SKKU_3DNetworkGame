@@ -6,15 +6,11 @@ public class PlayerPresenter : MonoBehaviour
     private Player _player;
     private UI_PlayerHead _uiPlayerHead;
 
+    // 각 플레이어 객체가 머리 위 UI 연결
     private void Awake()
     {
         _player = GetComponent<Player>();
         _uiPlayerHead = GetComponent<UI_PlayerHead>();
-    }
-
-    // 각 플레이어 객체가 머리 위 UI 연결
-    private void Start()
-    {
         _player.PlayerStat.OnDataChanged += _uiPlayerHead.Refresh;
     }
 

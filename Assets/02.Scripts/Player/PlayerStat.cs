@@ -84,16 +84,13 @@ public class PlayerStat
 
     // ──────────────── 이벤트 ────────────────
     public event Action<PlayerStat> OnDataChanged;
-    public event Action OnStaminaEmpty;
 
     // ──────────────── 메서드 ────────────────
     public bool TryUseStamina(float amount)
     {
         if (_stamina - amount < 0)
         {
-            OnStaminaEmpty?.Invoke();
-            _stamina = 0f;
-            return true;
+            return false;
         }
 
         _stamina -= amount;

@@ -36,7 +36,7 @@ public class PlayerAttackAbility : PlayerAbility
         if (_attackTimer >= (1f / _player.PlayerStat.AttackSpeed)
             && Input.GetMouseButtonDown(0)
             && _characterController.isGrounded
-            && _player.TryUseStamina(attackStaminaCost))
+            && _player.PlayerStat.TryUseStamina(attackStaminaCost))
         {
             // 공격 1~3 랜덤 공격
             int random = UnityEngine.Random.Range(1, 4);
@@ -83,6 +83,6 @@ public class PlayerAttackAbility : PlayerAbility
         OnAttackEnd();
         
         var targetPhotonView = target.GetComponent<PhotonView>();
-        targetPhotonView.RPC(nameof(Player.Damaged), RpcTarget.All, _player.PlayerStat.AttackDamage);
+        targetPhotonView.RPC(nameof(Player.Damaged), RpcTarget.AllBuffered, _player.PlayerStat.AttackDamage);
     }
 }
