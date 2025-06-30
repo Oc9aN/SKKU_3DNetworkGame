@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Photon.Pun;
+using Unity.Cinemachine;
 using UnityEngine;
 
 public class Player : MonoBehaviour, IDamaged
@@ -18,6 +19,8 @@ public class Player : MonoBehaviour, IDamaged
     public PhotonView PhotonView => _photonView;
     private CharacterController _characterController;
     
+    private CinemachineImpulseSource _impulseSource; 
+    
     private void Awake()
     {
         PlayerState = new PlayerState();
@@ -27,6 +30,7 @@ public class Player : MonoBehaviour, IDamaged
         _animator = GetComponent<Animator>();
         _photonView = GetComponent<PhotonView>();
         _characterController = GetComponent<CharacterController>();
+        _impulseSource = GetComponent<CinemachineImpulseSource>();
     }
 
     private void Update()
@@ -88,9 +92,9 @@ public class Player : MonoBehaviour, IDamaged
     [PunRPC]
     public void DamagedEvent(float damage)
     {
-        if (_playerStat.Health - damage <= 0f)
+        if (_photonView.IsMine)
         {
-            // 사망
+            _impulseSource.GenerateImpulse();
         }
     }
 
