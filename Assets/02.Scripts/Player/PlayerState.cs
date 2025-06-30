@@ -1,9 +1,8 @@
 public enum EPlayerState
 {
-    Idle,
-    Attack,
-    Run,
+    Live,
     Burnout,
+    Dead,
 }
 
 public class PlayerState

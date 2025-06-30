@@ -46,24 +46,35 @@ public class Player : MonoBehaviour, IDamaged
         return null;
     }
 
-    // public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    // {
-    //     if (stream.IsWriting)
-    //     {
-    //         stream.SendNext(_playerStat.Stamina);
-    //     }
-    //     else
-    //     {
-    //         float stamina = (float)stream.ReceiveNext();
-    //
-    //         _playerStat.SetStamina(stamina);
-    //     }
-    // }
-
     [PunRPC]
     public void Damaged(float damage)
     {
         _playerStat.SetHealth(Mathf.Max(_playerStat.Health - damage, 0f));
         Debug.Log($"남은 체력{_playerStat.Health}");
+    }
+
+    public bool TryUseStamina(float amount)
+    {
+        if (PlayerState.Is(EPlayerState.Burnout))
+        {
+            return false;
+        }
+
+        if (PlayerStat.TryUseStamina(amount))
+        {
+            return true;
+        }
+        
+        Debug.Log("탈진");
+        PlayerState.ChangeState(EPlayerState.Burnout);
+        PlayerStat.SetStamina(0f);
+        StartCoroutine(Burnout_Coroutine());
+        return true;
+    }
+
+    private IEnumerator Burnout_Coroutine()
+    {
+        yield return new WaitForSeconds(3f);
+        PlayerState.ChangeState(EPlayerState.Live);
     }
 }

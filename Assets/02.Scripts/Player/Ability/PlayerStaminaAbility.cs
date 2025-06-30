@@ -9,12 +9,19 @@ public class PlayerStaminaAbility : PlayerAbility
             return;
         }
         
-        if (!_player.PlayerState.Is(EPlayerState.Idle))
+        if (!CanRecover())
         {
             return;
         }
         
         float staminaRecoverAmount = _player.PlayerStat.StaminaRecovery * Time.deltaTime;
         _player.PlayerStat.StaminaRecover(staminaRecoverAmount);
+    }
+
+    private bool CanRecover()
+    {
+        return !_player.GetAbility<PlayerAttackAbility>().IsAttacking &&
+               !_player.GetAbility<PlayerMoveAbility>().IsRunning &&
+               !_player.PlayerState.Is(EPlayerState.Burnout);
     }
 }

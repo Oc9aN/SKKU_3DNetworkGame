@@ -10,6 +10,9 @@ public class PlayerAttackAbility : PlayerAbility
     private Animator _animator;
 
     private CharacterController _characterController;
+    
+    private bool _isAttacking;
+    public bool IsAttacking => _isAttacking;
 
     private void Start()
     {
@@ -36,13 +39,13 @@ public class PlayerAttackAbility : PlayerAbility
         if (_attackTimer >= (1f / _player.PlayerStat.AttackSpeed)
             && Input.GetMouseButtonDown(0)
             && _characterController.isGrounded
-            && _player.PlayerStat.TryUseStamina(attackStaminaCost))
+            && _player.TryUseStamina(attackStaminaCost))
         {
             // 공격 1~3 랜덤 공격
             int random = UnityEngine.Random.Range(1, 4);
             _attackTimer = 0f;
-            
-            _player.PlayerState.ChangeState(EPlayerState.Attack);
+
+            _isAttacking = true;
             _photonView.RPC(nameof(PlayAttackAnimation), RpcTarget.All, random);
         }
     }
@@ -59,7 +62,7 @@ public class PlayerAttackAbility : PlayerAbility
 
     public void AttackAnimationEnd()
     {
-        _player.PlayerState.ChangeState(EPlayerState.Idle);
+        _isAttacking = false;
     }
 
     [PunRPC]
