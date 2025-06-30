@@ -9,10 +9,12 @@ public class PlayerStaminaAbility : PlayerAbility
             return;
         }
         
-        if (_player.PlayerState.Is(EPlayerState.Idle))
+        if (!_player.PlayerState.Is(EPlayerState.Idle))
         {
-            float staminaRecoverAmount = _player.PlayerStat.StaminaRecovery * Time.deltaTime;
-            _player.PlayerStat.StaminaRecover(staminaRecoverAmount);
+            return;
         }
+        
+        float staminaRecoverAmount = _player.PlayerStat.StaminaRecovery * Time.deltaTime;
+        _player.PlayerStat.StaminaRecover(staminaRecoverAmount);
     }
 }

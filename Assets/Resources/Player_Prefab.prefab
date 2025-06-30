@@ -395,13 +395,13 @@ GameObject:
   - component: {fileID: 3286768287613216892}
   - component: {fileID: 2044454277029772134}
   - component: {fileID: 8621992808363952583}
+  - component: {fileID: 3532994814888109085}
   - component: {fileID: 7937754828158661613}
   - component: {fileID: 8883625101137824050}
   - component: {fileID: 9189672845500468316}
   - component: {fileID: 1534085115585734079}
   - component: {fileID: 2165979925447039453}
   - component: {fileID: 1771606149362968448}
-  - component: {fileID: 3532994814888109085}
   - component: {fileID: 8576339317130911765}
   - component: {fileID: 7934229273749307748}
   - component: {fileID: 8028951556633951944}
@@ -485,6 +485,33 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0.8, z: 0}
+--- !u!114 &3532994814888109085
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1693123937880498641}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb3f97009eb9eca45ad47b7bb796154d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playerStat:
+    _maxHealth: 100
+    _health: 100
+    _maxStamina: 100
+    _stamina: 100
+    _staminaRecovery: 20
+    _runStaminaRate: 10
+    _moveSpeed: 7
+    _runSpeed: 14
+    _rotationSpeed: 200
+    _jumpPower: 2.5
+    _jumpStamina: 10
+    _attackSpeed: 1.2
+    _attackStamina: 20
+    _attackDamage: 20
 --- !u!114 &7937754828158661613
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -522,6 +549,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fc09a19f941b9847844cfde89b113e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  WeaponCollider: {fileID: 12126220521813542}
 --- !u!114 &1534085115585734079
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -561,32 +589,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8f12696a3d7448f8c08a742b479de3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &3532994814888109085
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1693123937880498641}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cb3f97009eb9eca45ad47b7bb796154d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _playerStat:
-    _maxHealth: 100
-    _health: 100
-    _maxStamina: 100
-    _stamina: 100
-    _staminaRecovery: 20
-    _runStaminaRate: 10
-    _moveSpeed: 7
-    _runSpeed: 14
-    _rotationSpeed: 200
-    _jumpPower: 2.5
-    _jumpStamina: 10
-    _attackSpeed: 1.2
-    _attackStamina: 20
 --- !u!114 &8576339317130911765
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -611,7 +613,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d64102f2f331425b8367932dd99ac278, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StaminaSlider: {fileID: 6217399653446721484}
+  HealthSlider: {fileID: 6217399653446721484}
 --- !u!114 &8028951556633951944
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2341,7 +2343,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.9823963, b: 0.2216981, a: 1}
+  m_Color: {r: 1, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -3790,16 +3792,64 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 5610884078883986163, guid: 9fbe61d1f4bc091439f25f985dd189a5, type: 3}
+      propertyPath: m_TagString
+      value: Weapon
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5610884078883986163, guid: 9fbe61d1f4bc091439f25f985dd189a5, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 12126220521813542}
+    - targetCorrespondingSourceObject: {fileID: 5610884078883986163, guid: 9fbe61d1f4bc091439f25f985dd189a5, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2600377485329895994}
   m_SourcePrefab: {fileID: 100100000, guid: 9fbe61d1f4bc091439f25f985dd189a5, type: 3}
 --- !u!4 &6083629071272926191 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5086268201243115593, guid: 9fbe61d1f4bc091439f25f985dd189a5, type: 3}
   m_PrefabInstance: {fileID: 1367802994015361958}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &6856366240664256853 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5610884078883986163, guid: 9fbe61d1f4bc091439f25f985dd189a5, type: 3}
+  m_PrefabInstance: {fileID: 1367802994015361958}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &12126220521813542
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6856366240664256853}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.39174208, y: 1.4156286, z: 0.08912745}
+  m_Center: {x: -0.000000014617044, y: 0.50358963, z: 0.000000016971562}
+--- !u!114 &2600377485329895994
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6856366240664256853}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2219aa72defc14a4ab197a4a9ca90409, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &5846099246745132718
 PrefabInstance:
   m_ObjectHideFlags: 0

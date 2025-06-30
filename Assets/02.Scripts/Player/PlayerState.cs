@@ -3,6 +3,7 @@ public enum EPlayerState
     Idle,
     Attack,
     Run,
+    Burnout,
 }
 
 public class PlayerState

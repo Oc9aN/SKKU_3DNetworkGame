@@ -7,14 +7,14 @@ public class PlayerStat
     // ──────────────── 체력 관련 ────────────────
     [Header("체력")]
     [SerializeField]
-    private int _maxHealth;
+    private float _maxHealth;
 
-    public int MaxHealth => _maxHealth;
+    public float MaxHealth => _maxHealth;
 
     [SerializeField]
-    private int _health;
+    private float _health;
 
-    public int Health => _health;
+    public float Health => _health;
 
     // ──────────────── 스태미나 관련 ────────────────
     [Header("스테미나")]
@@ -76,6 +76,11 @@ public class PlayerStat
     private float _attackStamina;
 
     public float AttackStamina => _attackStamina;
+    
+    [SerializeField]
+    private float _attackDamage;
+
+    public float AttackDamage => _attackDamage;
 
     // ──────────────── 이벤트 ────────────────
     public event Action<PlayerStat> OnDataChanged;
@@ -87,7 +92,8 @@ public class PlayerStat
         if (_stamina - amount < 0)
         {
             OnStaminaEmpty?.Invoke();
-            return false;
+            _stamina = 0f;
+            return true;
         }
 
         _stamina -= amount;
@@ -108,6 +114,12 @@ public class PlayerStat
     {
         _stamina = stamina;
 
+        OnDataChanged?.Invoke(this);
+    }
+
+    public void SetHealth(float health)
+    {
+        _health = health;
         OnDataChanged?.Invoke(this);
     }
 }

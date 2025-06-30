@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerAttackAbility : PlayerAbility
 {
+    public Collider WeaponCollider;
+    
     private float _attackTimer;
     private Animator _animator;
 
@@ -13,6 +15,8 @@ public class PlayerAttackAbility : PlayerAbility
     {
         _animator = GetComponent<Animator>();
         _characterController = GetComponent<CharacterController>();
+        
+        WeaponCollider.enabled = false;
     }
     
     // 위치/회전처럼 상시 확인이 필요한 데이터 동기화: IPunObservable(OnPhotonSerializeView)
@@ -32,7 +36,7 @@ public class PlayerAttackAbility : PlayerAbility
         if (_attackTimer >= (1f / _player.PlayerStat.AttackSpeed)
             && Input.GetMouseButtonDown(0)
             && _characterController.isGrounded
-            && _player.PlayerStat.TryUseStamina(attackStaminaCost))
+            && _player.TryUseStamina(attackStaminaCost))
         {
             // 공격 1~3 랜덤 공격
             int random = UnityEngine.Random.Range(1, 4);
@@ -43,7 +47,17 @@ public class PlayerAttackAbility : PlayerAbility
         }
     }
 
+    public void OnAttackStart()
+    {
+        WeaponCollider.enabled = true;
+    }
+
     public void OnAttackEnd()
+    {
+        WeaponCollider.enabled = false;
+    }
+
+    public void AttackAnimationEnd()
     {
         _player.PlayerState.ChangeState(EPlayerState.Idle);
     }
@@ -52,5 +66,23 @@ public class PlayerAttackAbility : PlayerAbility
     private void PlayAttackAnimation(int randomNumber)
     {
         _animator.SetTrigger($"Attack{randomNumber}");
+    }
+
+    public void Hit(GameObject target)
+    {
+        if (!_photonView.IsMine)
+        {
+            return;
+        }
+
+        if (target.GetComponent<IDamaged>() == null)
+        {
+            return;
+        }
+        
+        OnAttackEnd();
+        
+        var targetPhotonView = target.GetComponent<PhotonView>();
+        targetPhotonView.RPC(nameof(Player.Damaged), RpcTarget.All, _player.PlayerStat.AttackDamage);
     }
 }
