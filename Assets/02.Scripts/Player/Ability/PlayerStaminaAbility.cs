@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerStaminaAbility : PlayerAbility
+public class PlayerStaminaAbility : PlayerAbility, IDisableOnDeath
 {
     private void Update()
     {

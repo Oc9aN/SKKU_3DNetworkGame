@@ -1,7 +1,7 @@
 using Photon.Pun;
 using UnityEngine;
 
-public class PlayerMoveAbility : PlayerAbility
+public class PlayerMoveAbility : PlayerAbility, IDisableOnDeath
 {
     private Animator _animator;
     private CharacterController _characterController;
@@ -24,12 +24,9 @@ public class PlayerMoveAbility : PlayerAbility
 
     private void Update()
     {
-        if (!_photonView.IsMine)
-        {
-            return;
-        }
-
-        if (_player.GetAbility<PlayerAttackAbility>().IsAttacking)
+        if (!_photonView.IsMine
+            || _player.GetAbility<PlayerAttackAbility>().IsAttacking
+            || _player.PlayerState.Is(EPlayerState.Dead))
         {
             return;
         }

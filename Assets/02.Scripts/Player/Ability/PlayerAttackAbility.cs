@@ -2,7 +2,7 @@ using System;
 using Photon.Pun;
 using UnityEngine;
 
-public class PlayerAttackAbility : PlayerAbility
+public class PlayerAttackAbility : PlayerAbility, IDisableOnDeath
 {
     public Collider WeaponCollider;
     
@@ -87,5 +87,6 @@ public class PlayerAttackAbility : PlayerAbility
         
         var targetPhotonView = target.GetComponent<PhotonView>();
         targetPhotonView.RPC(nameof(Player.Damaged), RpcTarget.AllBuffered, _player.PlayerStat.AttackDamage);
+        targetPhotonView.RPC(nameof(Player.DamagedEvent), RpcTarget.All, _player.PlayerStat.AttackDamage);
     }
 }

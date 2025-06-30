@@ -2,7 +2,7 @@ using System;
 using Unity.Cinemachine;
 using UnityEngine;
 
-public class PlayerRotateAbility : PlayerAbility
+public class PlayerRotateAbility : PlayerAbility, IDisableOnDeath
 {
     public Transform CameraRoot;
     

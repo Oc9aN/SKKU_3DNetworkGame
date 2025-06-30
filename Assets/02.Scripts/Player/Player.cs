@@ -13,7 +13,10 @@ public class Player : MonoBehaviour, IDamaged
     
     private Dictionary<Type, PlayerAbility> _abilityCache;
     
+    private Animator _animator;
     private PhotonView _photonView;
+    public PhotonView PhotonView => _photonView;
+    private CharacterController _characterController;
     
     private void Awake()
     {
@@ -21,7 +24,22 @@ public class Player : MonoBehaviour, IDamaged
         
         _abilityCache = new Dictionary<Type, PlayerAbility>();
 
+        _animator = GetComponent<Animator>();
         _photonView = GetComponent<PhotonView>();
+        _characterController = GetComponent<CharacterController>();
+    }
+
+    private void Update()
+    {
+        if (!_photonView.IsMine)
+        {
+            return;
+        }
+
+        if (transform.position.y <= -10)
+        {
+            _photonView.RPC(nameof(Damaged), RpcTarget.AllBuffered, float.MaxValue);
+        }
     }
 
     public T GetAbility<T>() where T : PlayerAbility
@@ -49,8 +67,31 @@ public class Player : MonoBehaviour, IDamaged
     [PunRPC]
     public void Damaged(float damage)
     {
+        if (PlayerState.Is(EPlayerState.Dead))
+        {
+            return;
+        }
+        
+        if (_playerStat.Health - damage <= 0f)
+        {
+            // 사망
+            _playerStat.SetHealth(0f);
+            OnDead();
+            Debug.Log("사망");
+            return;
+        }
+        
         _playerStat.SetHealth(Mathf.Max(_playerStat.Health - damage, 0f));
         Debug.Log($"남은 체력{_playerStat.Health}");
+    }
+    
+    [PunRPC]
+    public void DamagedEvent(float damage)
+    {
+        if (_playerStat.Health - damage <= 0f)
+        {
+            // 사망
+        }
     }
 
     public bool TryUseStamina(float amount)
@@ -76,5 +117,47 @@ public class Player : MonoBehaviour, IDamaged
     {
         yield return new WaitForSeconds(3f);
         PlayerState.ChangeState(EPlayerState.Live);
+    }
+
+    private void OnDead()
+    {
+        _characterController.enabled = false;
+        PlayerState.ChangeState(EPlayerState.Dead);
+        if (_photonView.IsMine)
+        {
+            _photonView.RPC(nameof(TriggerAnimation), RpcTarget.All, "Dead");
+        }
+        
+        foreach (var ability in GetComponents<PlayerAbility>())
+        {
+            if (ability is IDisableOnDeath)
+                ability.enabled = false;
+        }
+        
+        PlayerManager.Instance.RespawnPlayer(this);
+    }
+
+    [PunRPC]
+    public void Respawn(Vector3 spawnPosition)
+    {
+        transform.position = spawnPosition;
+        _characterController.enabled = true;
+        PlayerState.ChangeState(EPlayerState.Live);
+        _animator.SetTrigger("Respawn");
+        
+        _playerStat.SetStamina(_playerStat.MaxStamina);
+        _playerStat.SetHealth(_playerStat.MaxHealth);
+        
+        foreach (var ability in GetComponents<PlayerAbility>())
+        {
+            if (ability is IDisableOnDeath)
+                ability.enabled = true;
+        }
+    }
+
+    [PunRPC]
+    private void TriggerAnimation(string trigger)
+    {
+        _animator.SetTrigger(trigger);
     }
 }

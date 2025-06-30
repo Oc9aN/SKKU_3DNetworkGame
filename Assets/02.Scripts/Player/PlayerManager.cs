@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Photon.Pun;
@@ -29,5 +30,22 @@ public class PlayerManager : MonoSingleton<PlayerManager>
         player.GetComponent<PlayerPresenter>().Init(UI_PlayerHUD);
         
         MinimapCamera.Target = player.transform;
+    }
+
+    public void RespawnPlayer(Player player)
+    {
+        if (!player.PlayerState.Is(EPlayerState.Dead) ||
+            !player.PhotonView.IsMine)
+        {
+            return;
+        }
+
+        StartCoroutine(Respawn_Coroutine(player));
+    }
+
+    private IEnumerator Respawn_Coroutine(Player player)
+    {
+        yield return new WaitForSeconds(3f);
+        player.PhotonView.RPC(nameof(Player.Respawn), RpcTarget.All, _spawnPoints[Random.Range(0, _spawnPoints.Count)]);
     }
 }
