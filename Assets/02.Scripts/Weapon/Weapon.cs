@@ -23,6 +23,6 @@ public class Weapon : MonoBehaviour
             return;
         }
 
-        _attackAbility.Hit(other.gameObject);
+        _attackAbility.Hit(other.gameObject, other.ClosestPoint(transform.position));
     }
 }

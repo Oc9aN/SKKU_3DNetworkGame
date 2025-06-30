@@ -8,6 +8,8 @@ using UnityEngine;
 public class Player : MonoBehaviour, IDamaged
 {
     [SerializeField]
+    private ParticleSystem _hitParticle;
+    [SerializeField]
     private PlayerStat _playerStat;
     public PlayerStat PlayerStat => _playerStat;
     public PlayerState PlayerState { get; private set; }
@@ -90,12 +92,13 @@ public class Player : MonoBehaviour, IDamaged
     }
     
     [PunRPC]
-    public void DamagedEvent(float damage)
+    public void DamagedEvent(float damage, Vector3 hitPoint)
     {
         if (_photonView.IsMine)
         {
             _impulseSource.GenerateImpulse();
         }
+        Instantiate(_hitParticle, hitPoint, Quaternion.identity);
     }
 
     public bool TryUseStamina(float amount)

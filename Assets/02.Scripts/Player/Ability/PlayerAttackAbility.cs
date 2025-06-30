@@ -71,7 +71,7 @@ public class PlayerAttackAbility : PlayerAbility, IDisableOnDeath
         _animator.SetTrigger($"Attack{randomNumber}");
     }
 
-    public void Hit(GameObject target)
+    public void Hit(GameObject target, Vector3 hitPoint)
     {
         if (!_photonView.IsMine)
         {
@@ -87,6 +87,6 @@ public class PlayerAttackAbility : PlayerAbility, IDisableOnDeath
         
         var targetPhotonView = target.GetComponent<PhotonView>();
         targetPhotonView.RPC(nameof(Player.Damaged), RpcTarget.AllBuffered, _player.PlayerStat.AttackDamage);
-        targetPhotonView.RPC(nameof(Player.DamagedEvent), RpcTarget.All, _player.PlayerStat.AttackDamage);
+        targetPhotonView.RPC(nameof(Player.DamagedEvent), RpcTarget.All, _player.PlayerStat.AttackDamage, hitPoint);
     }
 }
