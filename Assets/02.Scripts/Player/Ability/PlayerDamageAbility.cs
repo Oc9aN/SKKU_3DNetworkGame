@@ -31,7 +31,7 @@ public class PlayerDamageAbility : PlayerAbility, IDamaged
     }
     
     [PunRPC]
-    public void Damaged(float damage, Vector3 hitPoint)
+    public void Damaged(float damage, Vector3 hitPoint, int actorNumber)
     {
         if (_player.PlayerState.Is(EPlayerState.Dead))
         {
@@ -41,8 +41,7 @@ public class PlayerDamageAbility : PlayerAbility, IDamaged
         if (_player.PlayerStat.Health - damage <= 0f)
         {
             // 사망
-            _player.PlayerStat.SetHealth(0f);
-            _player.OnDead();
+            _player.OnDead(actorNumber);
             Debug.Log("사망");
             return;
         }

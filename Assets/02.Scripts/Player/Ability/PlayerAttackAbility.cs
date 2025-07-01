@@ -87,6 +87,6 @@ public class PlayerAttackAbility : PlayerAbility, IDisableOnDeath
         OnAttackEnd();
         
         var targetPhotonView = target.GetComponent<PhotonView>();
-        targetPhotonView.RPC(nameof(PlayerDamageAbility.Damaged), RpcTarget.All, _player.PlayerStat.AttackDamage, hitPoint);
+        targetPhotonView.RPC(nameof(PlayerDamageAbility.Damaged), RpcTarget.All, _player.PlayerStat.AttackDamage, hitPoint, _photonView.Owner.ActorNumber);
     }
 }

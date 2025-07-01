@@ -8,6 +8,9 @@ public class RoomManager : MonoPunCallbacksSingleton<RoomManager>
     public Room Room => _room;
 
     public event Action OnRoomDataChanged;
+    public event Action<string> OnPlayerEntered;
+    public event Action<string> OnPlayerExit;
+    public event Action<string, string> OnPlayerKilled;
     
     public override void OnJoinedRoom()
     {
@@ -23,11 +26,20 @@ public class RoomManager : MonoPunCallbacksSingleton<RoomManager>
     public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
     {
         OnRoomDataChanged?.Invoke();
+        OnPlayerEntered?.Invoke(newPlayer.NickName + "_" + newPlayer.ActorNumber);
     }
 
     public override void OnPlayerLeftRoom(Photon.Realtime.Player otherPlayer)
     {
         OnRoomDataChanged?.Invoke();
+        OnPlayerExit?.Invoke(otherPlayer.NickName + "_" + otherPlayer.ActorNumber);
+    }
+
+    public void OnPlayerDeath(int playerNumber, int attackerNumber)
+    {
+        string playerName = _room.Players[playerNumber].NickName + playerNumber;
+        string attackerName = _room.Players[attackerNumber].NickName + attackerNumber;
+        OnPlayerKilled?.Invoke(playerName, attackerName);
     }
 
     private void SetRoom()

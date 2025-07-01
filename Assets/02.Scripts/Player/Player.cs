@@ -86,10 +86,15 @@ public class Player : MonoBehaviour, IPunObservable
         PlayerState.ChangeState(EPlayerState.Live);
     }
 
-    public void OnDead()
+    public void OnDead(int actorNumber)
     {
+        _playerStat.SetHealth(0f);
+        
         _characterController.enabled = false;
         PlayerState.ChangeState(EPlayerState.Dead);
+
+        RoomManager.Instance.OnPlayerDeath(_photonView.Owner.ActorNumber, actorNumber);
+        
         if (_photonView.IsMine)
         {
             _photonView.RPC(nameof(TriggerAnimation), RpcTarget.All, "Dead");
