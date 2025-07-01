@@ -72,8 +72,6 @@ public class PhotonServerManager : MonoBehaviourPunCallbacks
             // 진짜 고유 아이디
             Debug.Log($"{pair.Value.UserId}"); // 유저의 고유 아이디
         }
-        
-        PlayerManager.Instance.CreatePlayer();
     }
 
     // 방 입장에 실패하면 호출되는 함수
