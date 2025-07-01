@@ -29,9 +29,9 @@ public class PlayerDamageAbility : PlayerAbility, IDamaged
             _photonView.RPC(nameof(Damaged), RpcTarget.AllBuffered, float.MaxValue);
         }
     }
-
+    
     [PunRPC]
-    public void Damaged(float damage)
+    public void Damaged(float damage, Vector3 hitPoint)
     {
         if (_player.PlayerState.Is(EPlayerState.Dead))
         {
@@ -49,11 +49,8 @@ public class PlayerDamageAbility : PlayerAbility, IDamaged
         
         _player.PlayerStat.SetHealth(Mathf.Max(_player.PlayerStat.Health - damage, 0f));
         Debug.Log($"남은 체력{_player.PlayerStat.Health}");
-    }
-    
-    [PunRPC]
-    public void DamagedEvent(float damage, Vector3 hitPoint)
-    {
+        
+        // 연출
         if (_photonView.IsMine)
         {
             _impulseSource.GenerateImpulse();

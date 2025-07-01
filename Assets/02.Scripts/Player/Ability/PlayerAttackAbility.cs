@@ -78,7 +78,8 @@ public class PlayerAttackAbility : PlayerAbility, IDisableOnDeath
             return;
         }
 
-        if (target.GetComponent<IDamaged>() == null)
+        var targetDamaged = target.GetComponent<IDamaged>();
+        if (targetDamaged == null)
         {
             return;
         }
@@ -86,7 +87,6 @@ public class PlayerAttackAbility : PlayerAbility, IDisableOnDeath
         OnAttackEnd();
         
         var targetPhotonView = target.GetComponent<PhotonView>();
-        targetPhotonView.RPC(nameof(PlayerDamageAbility.Damaged), RpcTarget.AllBuffered, _player.PlayerStat.AttackDamage);
-        targetPhotonView.RPC(nameof(PlayerDamageAbility.DamagedEvent), RpcTarget.All, _player.PlayerStat.AttackDamage, hitPoint);
+        targetPhotonView.RPC(nameof(PlayerDamageAbility.Damaged), RpcTarget.All, _player.PlayerStat.AttackDamage, hitPoint);
     }
 }

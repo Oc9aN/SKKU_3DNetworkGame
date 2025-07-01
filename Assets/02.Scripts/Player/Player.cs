@@ -6,7 +6,7 @@ using Photon.Pun;
 using Unity.Cinemachine;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, IPunObservable
 {
     [SerializeField]
     private PlayerStat _playerStat;
@@ -29,6 +29,14 @@ public class Player : MonoBehaviour
         _animator = GetComponent<Animator>();
         _photonView = GetComponent<PhotonView>();
         _characterController = GetComponent<CharacterController>();
+    }
+
+    private void Start()
+    {
+        if (_playerStat.Health <= 0)
+        {
+            _photonView.RPC(nameof(TriggerAnimation), RpcTarget.All, "Dead");
+        }
     }
 
     public T GetAbility<T>() where T : PlayerAbility
@@ -118,5 +126,18 @@ public class Player : MonoBehaviour
     private void TriggerAnimation(string trigger)
     {
         _animator.SetTrigger(trigger);
+    }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            stream.SendNext(_playerStat.Health);
+        }
+        else if (stream.IsReading)
+        {
+            float health = (float)stream.ReceiveNext();
+            _playerStat.SetHealth(health);
+        }
     }
 }

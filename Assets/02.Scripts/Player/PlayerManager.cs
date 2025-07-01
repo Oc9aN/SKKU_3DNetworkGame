@@ -45,7 +45,7 @@ public class PlayerManager : MonoSingleton<PlayerManager>
 
     private IEnumerator Respawn_Coroutine(Player player)
     {
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(10f);
         player.PhotonView.RPC(nameof(Player.Respawn), RpcTarget.All, _spawnPoints[Random.Range(0, _spawnPoints.Count)]);
     }
 }
