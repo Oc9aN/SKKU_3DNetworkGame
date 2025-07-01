@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using MoreMountains.Feedbacks;
 using Photon.Pun;
 using Unity.Cinemachine;
 using UnityEngine;
@@ -21,7 +22,8 @@ public class Player : MonoBehaviour, IDamaged
     public PhotonView PhotonView => _photonView;
     private CharacterController _characterController;
     
-    private CinemachineImpulseSource _impulseSource; 
+    private CinemachineImpulseSource _impulseSource;
+    private MMF_Player _mmfPlayer;
     
     private void Awake()
     {
@@ -33,6 +35,7 @@ public class Player : MonoBehaviour, IDamaged
         _photonView = GetComponent<PhotonView>();
         _characterController = GetComponent<CharacterController>();
         _impulseSource = GetComponent<CinemachineImpulseSource>();
+        _mmfPlayer = GetComponent<MMF_Player>();
     }
 
     private void Update()
@@ -99,6 +102,7 @@ public class Player : MonoBehaviour, IDamaged
             _impulseSource.GenerateImpulse();
         }
         Instantiate(_hitParticle, hitPoint, Quaternion.identity);
+        _mmfPlayer.PlayFeedbacks();
     }
 
     public bool TryUseStamina(float amount)
