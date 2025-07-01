@@ -399,6 +399,7 @@ GameObject:
   - component: {fileID: 7937754828158661613}
   - component: {fileID: 8883625101137824050}
   - component: {fileID: 9189672845500468316}
+  - component: {fileID: 6081770847551510822}
   - component: {fileID: 1534085115585734079}
   - component: {fileID: 2165979925447039453}
   - component: {fileID: 1771606149362968448}
@@ -499,7 +500,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb3f97009eb9eca45ad47b7bb796154d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _hitParticle: {fileID: 5024009746357069192, guid: ec3f674830402cc45bce805cf6493db7, type: 3}
   _playerStat:
     _maxHealth: 100
     _health: 100
@@ -553,6 +553,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WeaponCollider: {fileID: 12126220521813542}
+--- !u!114 &6081770847551510822
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1693123937880498641}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aa793c5f75e49189a0b331ab0959fe0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hitParticle: {fileID: 5024009746357069192, guid: ec3f674830402cc45bce805cf6493db7, type: 3}
 --- !u!114 &1534085115585734079
 MonoBehaviour:
   m_ObjectHideFlags: 0

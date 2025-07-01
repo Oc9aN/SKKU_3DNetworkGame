@@ -6,10 +6,8 @@ using Photon.Pun;
 using Unity.Cinemachine;
 using UnityEngine;
 
-public class Player : MonoBehaviour, IDamaged
+public class Player : MonoBehaviour
 {
-    [SerializeField]
-    private ParticleSystem _hitParticle;
     [SerializeField]
     private PlayerStat _playerStat;
     public PlayerStat PlayerStat => _playerStat;
@@ -22,9 +20,6 @@ public class Player : MonoBehaviour, IDamaged
     public PhotonView PhotonView => _photonView;
     private CharacterController _characterController;
     
-    private CinemachineImpulseSource _impulseSource;
-    private MMF_Player _mmfPlayer;
-    
     private void Awake()
     {
         PlayerState = new PlayerState();
@@ -34,21 +29,6 @@ public class Player : MonoBehaviour, IDamaged
         _animator = GetComponent<Animator>();
         _photonView = GetComponent<PhotonView>();
         _characterController = GetComponent<CharacterController>();
-        _impulseSource = GetComponent<CinemachineImpulseSource>();
-        _mmfPlayer = GetComponent<MMF_Player>();
-    }
-
-    private void Update()
-    {
-        if (!_photonView.IsMine)
-        {
-            return;
-        }
-
-        if (transform.position.y <= -10)
-        {
-            _photonView.RPC(nameof(Damaged), RpcTarget.AllBuffered, float.MaxValue);
-        }
     }
 
     public T GetAbility<T>() where T : PlayerAbility
@@ -71,38 +51,6 @@ public class Player : MonoBehaviour, IDamaged
         throw new Exception($"PlayerAbility {typeof(T)}컴포넌트를 찾을 수 없습니다.");
         
         return null;
-    }
-
-    [PunRPC]
-    public void Damaged(float damage)
-    {
-        if (PlayerState.Is(EPlayerState.Dead))
-        {
-            return;
-        }
-        
-        if (_playerStat.Health - damage <= 0f)
-        {
-            // 사망
-            _playerStat.SetHealth(0f);
-            OnDead();
-            Debug.Log("사망");
-            return;
-        }
-        
-        _playerStat.SetHealth(Mathf.Max(_playerStat.Health - damage, 0f));
-        Debug.Log($"남은 체력{_playerStat.Health}");
-    }
-    
-    [PunRPC]
-    public void DamagedEvent(float damage, Vector3 hitPoint)
-    {
-        if (_photonView.IsMine)
-        {
-            _impulseSource.GenerateImpulse();
-        }
-        Instantiate(_hitParticle, hitPoint, Quaternion.identity);
-        _mmfPlayer.PlayFeedbacks();
     }
 
     public bool TryUseStamina(float amount)
@@ -130,7 +78,7 @@ public class Player : MonoBehaviour, IDamaged
         PlayerState.ChangeState(EPlayerState.Live);
     }
 
-    private void OnDead()
+    public void OnDead()
     {
         _characterController.enabled = false;
         PlayerState.ChangeState(EPlayerState.Dead);
