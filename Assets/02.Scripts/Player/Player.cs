@@ -5,6 +5,7 @@ using MoreMountains.Feedbacks;
 using Photon.Pun;
 using Unity.Cinemachine;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Player : MonoBehaviour, IPunObservable
 {
@@ -12,6 +13,8 @@ public class Player : MonoBehaviour, IPunObservable
     private PlayerStat _playerStat;
     public PlayerStat PlayerStat => _playerStat;
     public PlayerState PlayerState { get; private set; }
+
+    private int _score;
     
     private Dictionary<Type, PlayerAbility> _abilityCache;
     
@@ -98,6 +101,8 @@ public class Player : MonoBehaviour, IPunObservable
         if (_photonView.IsMine)
         {
             _photonView.RPC(nameof(TriggerAnimation), RpcTarget.All, "Dead");
+
+            MakeItems(Random.Range(2, 3));
         }
         
         foreach (var ability in GetComponents<PlayerAbility>())
@@ -107,6 +112,14 @@ public class Player : MonoBehaviour, IPunObservable
         }
         
         PlayerManager.Instance.RespawnPlayer(this);
+    }
+
+    private void MakeItems(int count)
+    {
+        for (int i = 0; i < count; i++)
+        {
+            PhotonNetwork.Instantiate("ScoreItem", transform.position + Vector3.up * 2f, Quaternion.identity, 0);
+        }
     }
 
     [PunRPC]
@@ -144,5 +157,10 @@ public class Player : MonoBehaviour, IPunObservable
             float health = (float)stream.ReceiveNext();
             _playerStat.SetHealth(health);
         }
+    }
+
+    public void AddScore(int amount)
+    {
+        _score += amount;
     }
 }
