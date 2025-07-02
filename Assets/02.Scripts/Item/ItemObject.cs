@@ -1,4 +1,5 @@
 using System;
+using Photon.Pun;
 using UnityEngine;
 
 public class ItemObject : MonoBehaviour
@@ -10,7 +11,7 @@ public class ItemObject : MonoBehaviour
             var player = other.GetComponent<Player>();
             player.AddScore(10);
             
-            Destroy(gameObject);
+            PhotonNetwork.Destroy(gameObject);
         }
     }
 }
