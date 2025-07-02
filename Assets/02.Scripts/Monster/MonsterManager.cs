@@ -14,17 +14,17 @@ public class MonsterManager : MonoPunCallbacksSingleton<MonsterManager>
     
     public override void OnCreatedRoom()
     {
-        if (PhotonNetwork.IsMasterClient)
-        {
-            CreateMonster();
-        }
+        CreateMonster();
     }
 
     public void CreateMonster()
     {
-        // 곰 생성
-        var monster = PhotonNetwork.InstantiateRoomObject("Monster_Prefab", _spawnPoint.position, Quaternion.identity);
+        if (PhotonNetwork.IsMasterClient)
+        {
+            // 곰 생성
+            var monster = PhotonNetwork.InstantiateRoomObject("Monster_Prefab", _spawnPoint.position, Quaternion.identity);
 
-        monster.GetComponent<Monster>().Init(_patrolPoints);
+            monster.GetComponent<Monster>().Init(_patrolPoints);
+        }
     }
 }

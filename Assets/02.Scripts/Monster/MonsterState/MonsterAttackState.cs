@@ -27,7 +27,7 @@ public class MonsterAttackState : IMonsterState
         {
             // 공격
             Debug.Log("곰 공격");
-            _monster.RequestRPC(() => _monster.Animator.SetTrigger($"Attack{Random.Range(1, 5)}"));
+            _monster.RequestAttackAnimation(Random.Range(1, 5));
             _attackTimer = 0f;
         }
 

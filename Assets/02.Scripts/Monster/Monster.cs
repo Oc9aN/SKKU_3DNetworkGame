@@ -65,8 +65,6 @@ public class Monster : MonoBehaviourPun, IDamaged, IAttackable
     private Animator _animator;
     public Animator Animator => _animator;
 
-    private event Action _rpcAction;
-
     private void Awake()
     {
         _navMeshAgent = GetComponent<NavMeshAgent>();
@@ -90,6 +88,10 @@ public class Monster : MonoBehaviourPun, IDamaged, IAttackable
 
     public void ChangeState(EMonsterState newState)
     {
+        if (!PhotonNetwork.IsMasterClient)
+        {
+            return;
+        }
         Debug.Log($"{_state}에서 {newState}로 변환");
         _states[_state]?.Exit();
         _state = newState;
@@ -98,6 +100,10 @@ public class Monster : MonoBehaviourPun, IDamaged, IAttackable
 
     private void Update()
     {
+        if (!PhotonNetwork.IsMasterClient)
+        {
+            return;
+        }
         _states[_state]?.Acting();
     }
 
@@ -114,21 +120,26 @@ public class Monster : MonoBehaviourPun, IDamaged, IAttackable
         Gizmos.DrawSphere(transform.position, AttackRange); // 반투명 내부 채움
     }
 
-    public void RequestRPC(Action rpcAction)
+    public void RequestAttackAnimation(int attackNumber)
     {
-        if (!photonView.IsMine)
-        {
-            return;
-        }
-        _rpcAction = null;
-        _rpcAction = rpcAction;
-        photonView.RPC(nameof(RPCEvent), RpcTarget.All);
+        photonView.RPC(nameof(AttackAnimationTrigger),  RpcTarget.All, attackNumber);
     }
 
     [PunRPC]
-    private void RPCEvent()
+    private void AttackAnimationTrigger(int attackNumber)
     {
-        _rpcAction?.Invoke();
+        Animator.SetTrigger($"Attack{attackNumber}");
+    }
+
+    public void RequestDeathAnimation()
+    {
+        photonView.RPC(nameof(DeathAnimationTrigger),  RpcTarget.All);
+    }
+    
+    [PunRPC]
+    private void DeathAnimationTrigger()
+    {
+        Animator.SetTrigger("Death");
     }
 
     [PunRPC]
