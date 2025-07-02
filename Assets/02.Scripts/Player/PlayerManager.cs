@@ -26,13 +26,14 @@ public class PlayerManager : MonoSingleton<PlayerManager>
     {
         int randomIndex = Random.Range(0, _spawnPoints.Count);
         var player = PhotonNetwork.Instantiate("Player_Prefab", _spawnPoints[randomIndex], Quaternion.identity);
-        
+
+        player.GetComponent<Player>().OnPlayerDeath += OnPlayerDeath;
         player.GetComponent<PlayerPresenter>().Init(UI_PlayerHUD);
         
         MinimapCamera.Target = player.transform;
     }
 
-    public void RespawnPlayer(Player player)
+    private void RespawnPlayer(Player player)
     {
         if (!player.PlayerState.Is(EPlayerState.Dead) ||
             !player.PhotonView.IsMine)
@@ -47,5 +48,17 @@ public class PlayerManager : MonoSingleton<PlayerManager>
     {
         yield return new WaitForSeconds(10f);
         player.PhotonView.RPC(nameof(Player.Respawn), RpcTarget.All, _spawnPoints[Random.Range(0, _spawnPoints.Count)]);
+    }
+
+    private void OnPlayerDeath(Player player)
+    {
+        // 사망시 발생하는 외부 이벤트
+        int randomCount = Random.Range(1, 4);
+        for (int i = 0; i < randomCount; i++)
+        {
+            ItemObjectFactory.Instance.RequestCreate(EItemType.Score, transform.position + Vector3.up * 2f);
+        }
+        
+        RespawnPlayer(player);
     }
 }

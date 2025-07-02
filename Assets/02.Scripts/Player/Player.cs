@@ -23,6 +23,8 @@ public class Player : MonoBehaviour, IPunObservable
     public PhotonView PhotonView => _photonView;
     private CharacterController _characterController;
     
+    public event Action<Player> OnPlayerDeath;
+    
     private void Awake()
     {
         PlayerState = new PlayerState();
@@ -91,6 +93,8 @@ public class Player : MonoBehaviour, IPunObservable
 
     public void OnDead(int actorNumber)
     {
+        OnPlayerDeath?.Invoke(this);
+        
         _playerStat.SetHealth(0f);
         
         _characterController.enabled = false;
@@ -101,24 +105,12 @@ public class Player : MonoBehaviour, IPunObservable
         if (_photonView.IsMine)
         {
             _photonView.RPC(nameof(TriggerAnimation), RpcTarget.All, "Dead");
-
-            MakeItem(Random.Range(1, 4));
         }
         
         foreach (var ability in GetComponents<PlayerAbility>())
         {
             if (ability is IDisableOnDeath)
                 ability.enabled = false;
-        }
-        
-        PlayerManager.Instance.RespawnPlayer(this);
-    }
-
-    private void MakeItem(int count)
-    {
-        for (int i = 0; i < count; i++)
-        {
-            ItemObjectFactory.Instance.RequestCreate(EItemType.Score, transform.position + Vector3.up * 2f);
         }
     }
 
