@@ -1,34 +1,32 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using MoreMountains.Feedbacks;
 using Photon.Pun;
-using Unity.Cinemachine;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 public class Player : MonoBehaviour, IPunObservable
 {
     [SerializeField]
     private PlayerStat _playerStat;
+
     public PlayerStat PlayerStat => _playerStat;
     public PlayerState PlayerState { get; private set; }
 
     private int _score;
-    
+
     private Dictionary<Type, PlayerAbility> _abilityCache;
-    
+
     private Animator _animator;
     private PhotonView _photonView;
     public PhotonView PhotonView => _photonView;
     private CharacterController _characterController;
-    
+
     public event Action<Player> OnPlayerDeath;
-    
+
     private void Awake()
     {
         PlayerState = new PlayerState();
-        
+
         _abilityCache = new Dictionary<Type, PlayerAbility>();
 
         _animator = GetComponent<Animator>();
@@ -50,19 +48,19 @@ public class Player : MonoBehaviour, IPunObservable
         {
             return ability as T;
         }
-        
+
         // 필요할 때 초기화
         ability = GetComponent<T>();
 
         if (ability != null)
         {
             _abilityCache[ability.GetType()] = ability;
-            
+
             return ability as T;
         }
-        
+
         throw new Exception($"PlayerAbility {typeof(T)}컴포넌트를 찾을 수 없습니다.");
-        
+
         return null;
     }
 
@@ -77,7 +75,7 @@ public class Player : MonoBehaviour, IPunObservable
         {
             return true;
         }
-        
+
         Debug.Log("탈진");
         PlayerState.ChangeState(EPlayerState.Burnout);
         PlayerStat.SetStamina(0f);
@@ -94,23 +92,23 @@ public class Player : MonoBehaviour, IPunObservable
     public void OnDead(int actorNumber)
     {
         _playerStat.SetHealth(0f);
-        
+
         _characterController.enabled = false;
         PlayerState.ChangeState(EPlayerState.Dead);
 
         RoomManager.Instance.OnPlayerDeath(_photonView.Owner.ActorNumber, actorNumber);
-        
+
         if (_photonView.IsMine)
         {
             _photonView.RPC(nameof(TriggerAnimation), RpcTarget.All, "Dead");
         }
-        
+
         foreach (var ability in GetComponents<PlayerAbility>())
         {
             if (ability is IDisableOnDeath)
                 ability.enabled = false;
         }
-        
+
         OnPlayerDeath?.Invoke(this);
     }
 
@@ -121,10 +119,10 @@ public class Player : MonoBehaviour, IPunObservable
         _characterController.enabled = true;
         PlayerState.ChangeState(EPlayerState.Live);
         _animator.SetTrigger("Respawn");
-        
+
         _playerStat.SetStamina(_playerStat.MaxStamina);
         _playerStat.SetHealth(_playerStat.MaxHealth);
-        
+
         foreach (var ability in GetComponents<PlayerAbility>())
         {
             if (ability is IDisableOnDeath)
@@ -157,6 +155,7 @@ public class Player : MonoBehaviour, IPunObservable
         {
             return;
         }
+
         _score += amount;
     }
 
@@ -166,6 +165,7 @@ public class Player : MonoBehaviour, IPunObservable
         {
             return;
         }
+
         _playerStat.SetStamina(_playerStat.Stamina + amount);
     }
 
@@ -175,6 +175,7 @@ public class Player : MonoBehaviour, IPunObservable
         {
             return;
         }
+
         _playerStat.SetHealth(_playerStat.Health + amount);
     }
 }
