@@ -102,7 +102,7 @@ public class Player : MonoBehaviour, IPunObservable
         {
             _photonView.RPC(nameof(TriggerAnimation), RpcTarget.All, "Dead");
 
-            MakeItems(Random.Range(2, 3));
+            MakeItem(Random.Range(1, 4));
         }
         
         foreach (var ability in GetComponents<PlayerAbility>())
@@ -114,11 +114,11 @@ public class Player : MonoBehaviour, IPunObservable
         PlayerManager.Instance.RespawnPlayer(this);
     }
 
-    private void MakeItems(int count)
+    private void MakeItem(int count)
     {
         for (int i = 0; i < count; i++)
         {
-            PhotonNetwork.Instantiate("ScoreItem", transform.position + Vector3.up * 2f, Quaternion.identity, 0);
+            ItemObjectFactory.Instance.RequestCreate(EItemType.Score, transform.position + Vector3.up * 2f);
         }
     }
 
