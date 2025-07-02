@@ -15,7 +15,7 @@ public class PlayerStaminaAbility : PlayerAbility, IDisableOnDeath
         }
         
         float staminaRecoverAmount = _player.PlayerStat.StaminaRecovery * Time.deltaTime;
-        _player.PlayerStat.StaminaRecover(staminaRecoverAmount);
+        _player.PlayerStat.SetStamina(_player.PlayerStat.Stamina + staminaRecoverAmount);
     }
 
     private bool CanRecover()

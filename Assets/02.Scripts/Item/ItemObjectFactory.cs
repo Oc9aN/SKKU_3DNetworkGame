@@ -30,7 +30,7 @@ public class ItemObjectFactory : MonoSingleton<ItemObjectFactory>
     [PunRPC]
     private void CreateItem(EItemType itemType, Vector3 position)
     {
-        PhotonNetwork.InstantiateRoomObject($"{itemType}Item", position + Vector3.up * 2f, Quaternion.identity, 0);
+        PhotonNetwork.InstantiateRoomObject($"{itemType}Item", position, Quaternion.identity);
     }
 
     public void RequestDelete(int viewId)
@@ -46,7 +46,7 @@ public class ItemObjectFactory : MonoSingleton<ItemObjectFactory>
     [PunRPC]
     private void DeleteItem(int viewId)
     {
-        GameObject deleteItem = PhotonView.Find(viewId).gameObject;
+        GameObject deleteItem = PhotonView.Find(viewId)?.gameObject;
         if (deleteItem == null) return;
         
         PhotonNetwork.Destroy(deleteItem);

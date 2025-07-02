@@ -97,19 +97,13 @@ public class PlayerStat
         OnDataChanged?.Invoke(this);
         return true;
     }
-
-    public void StaminaRecover(float amount)
-    {
-        _stamina += amount;
-        if (_stamina > _maxStamina)
-            _stamina = _maxStamina;
-
-        OnDataChanged?.Invoke(this);
-    }
     
     public void SetStamina(float stamina)
     {
         _stamina = stamina;
+        
+        if (_stamina > _maxStamina)
+            _stamina = _maxStamina;
 
         OnDataChanged?.Invoke(this);
     }

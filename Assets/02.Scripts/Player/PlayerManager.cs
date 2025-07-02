@@ -56,7 +56,17 @@ public class PlayerManager : MonoSingleton<PlayerManager>
         int randomCount = Random.Range(1, 4);
         for (int i = 0; i < randomCount; i++)
         {
-            ItemObjectFactory.Instance.RequestCreate(EItemType.Score, transform.position + Vector3.up * 2f);
+            ItemObjectFactory.Instance.RequestCreate(EItemType.Score, player.transform.position + Vector3.up * 2f);
+        }
+        int percent = Random.Range(0, 100);
+        if (percent < 100)
+        {
+            ItemObjectFactory.Instance.RequestCreate(EItemType.Health, player.transform.position + new Vector3(Random.Range(0f, 1f), 0, Random.Range(0f, 1f)));
+        }
+        percent = Random.Range(0, 100);
+        if (percent < 100)
+        {
+            ItemObjectFactory.Instance.RequestCreate(EItemType.Stamina, player.transform.position + new Vector3(Random.Range(0f, 1f), 0, Random.Range(0f, 1f)));
         }
         
         RespawnPlayer(player);

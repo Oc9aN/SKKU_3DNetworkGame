@@ -93,8 +93,6 @@ public class Player : MonoBehaviour, IPunObservable
 
     public void OnDead(int actorNumber)
     {
-        OnPlayerDeath?.Invoke(this);
-        
         _playerStat.SetHealth(0f);
         
         _characterController.enabled = false;
@@ -112,6 +110,8 @@ public class Player : MonoBehaviour, IPunObservable
             if (ability is IDisableOnDeath)
                 ability.enabled = false;
         }
+        
+        OnPlayerDeath?.Invoke(this);
     }
 
     [PunRPC]
@@ -153,6 +153,28 @@ public class Player : MonoBehaviour, IPunObservable
 
     public void AddScore(int amount)
     {
+        if (!_photonView.IsMine)
+        {
+            return;
+        }
         _score += amount;
+    }
+
+    public void AddStamina(float amount)
+    {
+        if (!_photonView.IsMine)
+        {
+            return;
+        }
+        _playerStat.SetStamina(_playerStat.Stamina + amount);
+    }
+
+    public void AddHealth(float amount)
+    {
+        if (!_photonView.IsMine)
+        {
+            return;
+        }
+        _playerStat.SetHealth(_playerStat.Health + amount);
     }
 }
