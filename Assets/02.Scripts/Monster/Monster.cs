@@ -14,13 +14,17 @@ public enum EMonsterState
     Dead,
 }
 
-public class Monster : MonoBehaviourPun, IDamaged
+public class Monster : MonoBehaviourPun, IDamaged, IAttackable
 {
     [Header("스텟")]
     [SerializeField]
     private float _health;
     [SerializeField]
     private float _damage;
+    
+    [Header("공격")]
+    [SerializeField]
+    private BoxCollider _attackCollider;
 
     [Header("FSM 정보")]
     [SerializeField]
@@ -139,5 +143,37 @@ public class Monster : MonoBehaviourPun, IDamaged
             // 사망
             ChangeState(EMonsterState.Dead);
         }
+    }
+
+    public void OnAttackStart()
+    {
+        _attackCollider.enabled = true;
+    }
+
+    public void OnAttackEnd()
+    {
+        _attackCollider.enabled = false;
+    }
+
+    public bool IsMe(Transform target)
+    {
+        return target == transform;
+    }
+
+    public void Hit(GameObject target, Vector3 hitPoint)
+    {
+        if (!photonView.IsMine)
+        {
+            return;
+        }
+
+        var targetDamaged = target.GetComponent<IDamaged>();
+        if (targetDamaged == null)
+        {
+            return;
+        }
+        
+        var targetPhotonView = target.GetComponent<PhotonView>();
+        targetPhotonView.RPC(nameof(IDamaged.Damaged), RpcTarget.All, _damage, hitPoint, photonView.Owner.ActorNumber);
     }
 }

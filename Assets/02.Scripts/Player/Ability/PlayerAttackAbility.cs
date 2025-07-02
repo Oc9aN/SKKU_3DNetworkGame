@@ -2,7 +2,7 @@ using System;
 using Photon.Pun;
 using UnityEngine;
 
-public class PlayerAttackAbility : PlayerAbility, IDisableOnDeath
+public class PlayerAttackAbility : PlayerAbility, IDisableOnDeath, IAttackable
 {
     public Collider WeaponCollider;
     
@@ -69,6 +69,11 @@ public class PlayerAttackAbility : PlayerAbility, IDisableOnDeath
     private void PlayAttackAnimation(int randomNumber)
     {
         _animator.SetTrigger($"Attack{randomNumber}");
+    }
+
+    public bool IsMe(Transform target)
+    {
+        return target == transform;
     }
 
     public void Hit(GameObject target, Vector3 hitPoint)

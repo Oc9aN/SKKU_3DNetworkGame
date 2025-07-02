@@ -3,17 +3,17 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
-    private PlayerAttackAbility _attackAbility;
+    private IAttackable _attackable;
 
     private void Awake()
     {
-        _attackAbility = GetComponentInParent<PlayerAttackAbility>();
+        _attackable = GetComponentInParent<IAttackable>();
     }
 
     private void OnTriggerEnter(Collider other)
     {
         // 자기 자신은 무시
-        if (other.transform == _attackAbility.transform)
+        if (_attackable.IsMe(other.transform))
         {
             return;
         }
@@ -23,6 +23,6 @@ public class Weapon : MonoBehaviour
             return;
         }
 
-        _attackAbility.Hit(other.gameObject, other.ClosestPoint(transform.position));
+        _attackable.Hit(other.gameObject, other.ClosestPoint(transform.position));
     }
 }
