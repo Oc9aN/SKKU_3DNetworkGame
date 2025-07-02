@@ -14,32 +14,38 @@ public enum EMonsterState
     Dead,
 }
 
-public class Monster : MonoBehaviourPun
+public class Monster : MonoBehaviourPun, IDamaged
 {
+    [Header("스텟")]
+    [SerializeField]
+    private float _health;
+    [SerializeField]
+    private float _damage;
+
+    [Header("FSM 정보")]
     [SerializeField]
     private float _idleTime;
-
     public float IdleTime => _idleTime;
 
     [SerializeField]
     private float _attackTime;
-
     public float AttackTime => _attackTime;
 
     [SerializeField]
     private float _attackRange;
-
     public float AttackRange => _attackRange;
 
     [SerializeField]
     private float _traceRange;
-
     public float TraceRange => _traceRange;
 
     [SerializeField]
     private float _respawnTime;
-
     public float RespawnTime => _respawnTime;
+    
+    [Header("FSM 정보")]
+    [SerializeField]
+    private ParticleSystem _hitPrefab;
 
     private List<Transform> _patrolPoints;
 
@@ -61,7 +67,7 @@ public class Monster : MonoBehaviourPun
     {
         _navMeshAgent = GetComponent<NavMeshAgent>();
         _animator = GetComponent<Animator>();
-        
+
         _states = new Dictionary<EMonsterState, IMonsterState>()
         {
             { EMonsterState.Idle, new MonsterIdleState(this) },
@@ -106,6 +112,10 @@ public class Monster : MonoBehaviourPun
 
     public void RequestRPC(Action rpcAction)
     {
+        if (!photonView.IsMine)
+        {
+            return;
+        }
         _rpcAction = null;
         _rpcAction = rpcAction;
         photonView.RPC(nameof(RPCEvent), RpcTarget.All);
@@ -115,5 +125,19 @@ public class Monster : MonoBehaviourPun
     private void RPCEvent()
     {
         _rpcAction?.Invoke();
+    }
+
+    [PunRPC]
+    public void Damaged(float damage, Vector3 hitPoint, int actorNumber)
+    {
+        Instantiate(_hitPrefab, hitPoint, Quaternion.identity);
+        
+        _health -= damage;
+
+        if (_health <= 0)
+        {
+            // 사망
+            ChangeState(EMonsterState.Dead);
+        }
     }
 }

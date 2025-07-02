@@ -835,6 +835,7 @@ GameObject:
   - component: {fileID: 9022852194373445862}
   - component: {fileID: 6330169319152095026}
   - component: {fileID: 7858798288449720534}
+  - component: {fileID: 1466972866747806494}
   m_Layer: 0
   m_Name: Monster_Prefab
   m_TagString: Untagged
@@ -936,11 +937,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcbed809ebeb58849ad565c9f7c37e45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _health: 100
+  _damage: 10
   _idleTime: 3
   _attackTime: 3
   _attackRange: 3
   _traceRange: 7
   _respawnTime: 10
+  _hitPrefab: {fileID: 5024009746357069192, guid: ec3f674830402cc45bce805cf6493db7, type: 3}
   Target: {fileID: 0}
 --- !u!114 &9022852194373445862
 MonoBehaviour:
@@ -1012,9 +1016,39 @@ MonoBehaviour:
   - Type: 4
     SynchronizeType: 1
     Name: IsWalk
+  - Type: 9
+    SynchronizeType: 0
+    Name: Death
   m_SynchronizeLayers:
   - SynchronizeType: 0
     LayerIndex: 0
+--- !u!54 &1466972866747806494
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4445213412599585693}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &4533193918776971090
 GameObject:
   m_ObjectHideFlags: 0
@@ -1859,7 +1893,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8551231427194493026}
-  - component: {fileID: 3509113589701261074}
+  - component: {fileID: 5225095899350945350}
   m_Layer: 0
   m_Name: Meshes
   m_TagString: Untagged
@@ -1883,7 +1917,7 @@ Transform:
   - {fileID: 3506894429093541144}
   m_Father: {fileID: 2082319535635690900}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &3509113589701261074
+--- !u!65 &5225095899350945350
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

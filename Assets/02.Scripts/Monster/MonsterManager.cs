@@ -16,10 +16,15 @@ public class MonsterManager : MonoPunCallbacksSingleton<MonsterManager>
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            // 곰 생성
-            var monster = PhotonNetwork.InstantiateRoomObject("Monster_Prefab", _spawnPoint.position, Quaternion.identity);
-
-            monster.GetComponent<Monster>().Init(_patrolPoints);
+            CreateMonster();
         }
+    }
+
+    public void CreateMonster()
+    {
+        // 곰 생성
+        var monster = PhotonNetwork.InstantiateRoomObject("Monster_Prefab", _spawnPoint.position, Quaternion.identity);
+
+        monster.GetComponent<Monster>().Init(_patrolPoints);
     }
 }
