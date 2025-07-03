@@ -1,12 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Photon.Pun;
 using UnityEngine;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class ScoreManager : MonoPunCallbacksSingleton<ScoreManager>
 {
-    public event Action<Dictionary<string, int>> OnDataChanged;
+    public event Action<List<KeyValuePair<string,int>>> OnDataChanged;
     
     private Dictionary<string, int> _scores = new Dictionary<string, int>();
     
@@ -32,7 +33,8 @@ public class ScoreManager : MonoPunCallbacksSingleton<ScoreManager>
             }
         }
         
-        OnDataChanged?.Invoke(_scores);
+        var sortedScore = _scores.OrderByDescending(x => x.Value).ToList();
+        OnDataChanged?.Invoke(sortedScore);
     }
 
     private void Refresh()

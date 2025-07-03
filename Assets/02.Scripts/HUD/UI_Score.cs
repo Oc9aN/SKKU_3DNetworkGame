@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using Photon.Pun;
 using UnityEngine;
 
@@ -14,10 +12,9 @@ public class UI_Score : MonoBehaviour
         ScoreManager.Instance.OnDataChanged += Refresh;
     }
 
-    private void Refresh(Dictionary<string, int> dict)
+    private void Refresh(List<KeyValuePair<string,int>> sortedScore)
     {
         // 1~4위 표시
-        var sortedScore = dict.OrderByDescending(x => x.Value).ToList();
         for (int i = 0; i < Slots.Count; i++)
         {
             if (i < sortedScore.Count)
