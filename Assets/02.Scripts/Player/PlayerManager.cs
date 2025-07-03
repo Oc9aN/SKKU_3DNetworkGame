@@ -15,7 +15,7 @@ public class PlayerManager : MonoSingleton<PlayerManager>
     private void Start()
     {
         _spawnPoints = new List<Vector3>();
-        foreach (var spawnTransform in SpawnPoints.GetComponentsInChildren<Transform>().Where(t => t != this.transform))
+        foreach (var spawnTransform in SpawnPoints.GetComponentsInChildren<Transform>().Where(t => t != SpawnPoints.transform))
         {
             _spawnPoints.Add(spawnTransform.position);
         }

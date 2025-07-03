@@ -10,6 +10,8 @@ public class MonsterManager : MonoPunCallbacksSingleton<MonsterManager>
     [SerializeField]
     private List<Transform> _patrolPoints;
     
+    public IReadOnlyList<Transform> PatrolPoints => _patrolPoints;
+    
     private PhotonView _photonView;
     
     public override void OnCreatedRoom()
@@ -22,9 +24,7 @@ public class MonsterManager : MonoPunCallbacksSingleton<MonsterManager>
         if (PhotonNetwork.IsMasterClient)
         {
             // 곰 생성
-            var monster = PhotonNetwork.InstantiateRoomObject("Monster_Prefab", _spawnPoint.position, Quaternion.identity);
-
-            monster.GetComponent<Monster>().Init(_patrolPoints);
+            PhotonNetwork.InstantiateRoomObject("Monster_Prefab", _spawnPoint.position, Quaternion.identity);
         }
     }
 }

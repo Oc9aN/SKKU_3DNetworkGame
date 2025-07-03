@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Photon.Pun;
 using UnityEngine;
@@ -14,7 +13,7 @@ public enum EMonsterState
     Dead,
 }
 
-public class Monster : MonoBehaviourPun, IDamaged, IAttackable
+public class Monster : MonoBehaviourPun, IDamaged, IAttackable, IPunObservable
 {
     [Header("스텟")]
     [SerializeField]
@@ -51,7 +50,7 @@ public class Monster : MonoBehaviourPun, IDamaged, IAttackable
     [SerializeField]
     private ParticleSystem _hitPrefab;
 
-    private List<Transform> _patrolPoints;
+    private IReadOnlyList<Transform> _patrolPoints;
 
     private EMonsterState _state;
 
@@ -78,11 +77,7 @@ public class Monster : MonoBehaviourPun, IDamaged, IAttackable
             { EMonsterState.Attack, new MonsterAttackState(this) },
             { EMonsterState.Dead, new MonsterDeadState(this) }
         };
-    }
-
-    public void Init(List<Transform> patrolPoints)
-    {
-        _patrolPoints = patrolPoints;
+        
         _state = EMonsterState.Idle;
     }
 
@@ -111,6 +106,10 @@ public class Monster : MonoBehaviourPun, IDamaged, IAttackable
 
     public Vector3 GetPatrolPosition()
     {
+        if (_patrolPoints == null)
+        {
+            _patrolPoints = MonsterManager.Instance.PatrolPoints;
+        }
         return _patrolPoints[Random.Range(0, _patrolPoints.Count)].position;
     }
 
@@ -147,9 +146,18 @@ public class Monster : MonoBehaviourPun, IDamaged, IAttackable
     [PunRPC]
     public void Damaged(float damage, Vector3 hitPoint, int actorNumber)
     {
+        if (_state == EMonsterState.Dead)
+        {
+            return;
+        }
+
         Instantiate(_hitPrefab, hitPoint, Quaternion.identity);
 
-        _health -= damage;
+        if (photonView.IsMine)
+        {
+            _health -= damage;
+            Debug.Log($"현재 채력: {_health}");
+        }
 
         if (_health <= 0)
         {
@@ -188,5 +196,17 @@ public class Monster : MonoBehaviourPun, IDamaged, IAttackable
 
         var targetPhotonView = target.GetComponent<PhotonView>();
         targetPhotonView.RPC(nameof(IDamaged.Damaged), RpcTarget.All, _damage, hitPoint, photonView.Owner.ActorNumber);
+    }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            stream.SendNext(_health);
+        }
+        else if (stream.IsReading)
+        {
+            _health = (float)stream.ReceiveNext();
+        }
     }
 }

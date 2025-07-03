@@ -26,7 +26,7 @@ public class PlayerDamageAbility : PlayerAbility, IDamaged
 
         if (transform.position.y <= -10)
         {
-            _photonView.RPC(nameof(Damaged), RpcTarget.AllBuffered, float.MaxValue);
+            _photonView.RPC(nameof(Damaged), RpcTarget.All, float.MaxValue);
         }
     }
     
@@ -45,8 +45,11 @@ public class PlayerDamageAbility : PlayerAbility, IDamaged
             Debug.Log("사망");
             return;
         }
-        
-        _player.PlayerStat.SetHealth(Mathf.Max(_player.PlayerStat.Health - damage, 0f));
+
+        if (_photonView.IsMine)
+        {
+            _player.PlayerStat.SetHealth(Mathf.Max(_player.PlayerStat.Health - damage, 0f));
+        }
         Debug.Log($"남은 체력{_player.PlayerStat.Health}");
         
         // 연출

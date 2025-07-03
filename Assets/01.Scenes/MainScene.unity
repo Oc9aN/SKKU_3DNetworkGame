@@ -403,7 +403,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a585683627f4ab886ff08393668ce10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _interval: 10
+  _interval: 20
   _range: 3
 --- !u!1001 &67688285
 PrefabInstance:
@@ -4589,7 +4589,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a585683627f4ab886ff08393668ce10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _interval: 10
+  _interval: 20
   _range: 3
 --- !u!1001 &464396982
 PrefabInstance:
@@ -5125,52 +5125,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1207449177372256145, guid: 46ca9bca5d4d6824c9973375d741a3df, type: 3}
   m_PrefabInstance: {fileID: 483524814}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &484084025
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 484084026}
-  - component: {fileID: 484084027}
-  m_Layer: 0
-  m_Name: SocreItemSpawner (8)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &484084026
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 484084025}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 22.4, y: 0, z: 7.2}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2076605134}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &484084027
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 484084025}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a585683627f4ab886ff08393668ce10, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _interval: 10
-  _range: 3
 --- !u!1 &489854593
 GameObject:
   m_ObjectHideFlags: 0
@@ -5215,7 +5169,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a585683627f4ab886ff08393668ce10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _interval: 10
+  _interval: 20
   _range: 3
 --- !u!1001 &499944906
 PrefabInstance:
@@ -6848,52 +6802,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 108225653778528902, guid: 3e2accafa3a5f1b40ba86cf39bcb49a7, type: 3}
   m_PrefabInstance: {fileID: 750611866}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &769388186
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 769388187}
-  - component: {fileID: 769388188}
-  m_Layer: 0
-  m_Name: SocreItemSpawner
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &769388187
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 769388186}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2076605134}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &769388188
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 769388186}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a585683627f4ab886ff08393668ce10, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _interval: 10
-  _range: 3
 --- !u!1001 &788498945
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8557,7 +8465,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a585683627f4ab886ff08393668ce10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _interval: 10
+  _interval: 20
   _range: 3
 --- !u!1001 &930360743
 PrefabInstance:
@@ -9390,7 +9298,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a585683627f4ab886ff08393668ce10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _interval: 10
+  _interval: 20
   _range: 3
 --- !u!1 &1035140760
 GameObject:
@@ -12353,7 +12261,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a585683627f4ab886ff08393668ce10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _interval: 10
+  _interval: 20
   _range: 3
 --- !u!1001 &1392029313
 PrefabInstance:
@@ -14195,52 +14103,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6359112800851487366, guid: c0695e50372965840badd7b84ed57617, type: 3}
   m_PrefabInstance: {fileID: 1567322011}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1578568035
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1578568036}
-  - component: {fileID: 1578568037}
-  m_Layer: 0
-  m_Name: SocreItemSpawner (9)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1578568036
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1578568035}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 11.4, y: 0, z: 40}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2076605134}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1578568037
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1578568035}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a585683627f4ab886ff08393668ce10, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _interval: 10
-  _range: 3
 --- !u!1 &1589696920
 GameObject:
   m_ObjectHideFlags: 0
@@ -18489,7 +18351,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 769388187}
   - {fileID: 929559328}
   - {fileID: 489854594}
   - {fileID: 67028904}
@@ -18497,8 +18358,6 @@ Transform:
   - {fileID: 452333858}
   - {fileID: 2085376987}
   - {fileID: 998068203}
-  - {fileID: 484084026}
-  - {fileID: 1578568036}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2085376986
@@ -18545,7 +18404,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a585683627f4ab886ff08393668ce10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _interval: 10
+  _interval: 20
   _range: 3
 --- !u!1001 &2102000379
 PrefabInstance:
