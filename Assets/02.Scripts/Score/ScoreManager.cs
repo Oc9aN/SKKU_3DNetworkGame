@@ -7,6 +7,7 @@ using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class ScoreManager : MonoPunCallbacksSingleton<ScoreManager>
 {
+    public event Action OnScoreAdded;
     public event Action<List<KeyValuePair<string,int>>> OnDataChanged;
     
     private Dictionary<string, int> _scores = new Dictionary<string, int>();
@@ -50,5 +51,7 @@ public class ScoreManager : MonoPunCallbacksSingleton<ScoreManager>
         
         // 커스텀 프로퍼티 수정
         Refresh();
+        
+        OnScoreAdded?.Invoke();
     }
 }
