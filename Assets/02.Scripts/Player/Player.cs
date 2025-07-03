@@ -12,8 +12,6 @@ public class Player : MonoBehaviour, IPunObservable
     public PlayerStat PlayerStat => _playerStat;
     public PlayerState PlayerState { get; private set; }
 
-    private int _score;
-
     private Dictionary<Type, PlayerAbility> _abilityCache;
 
     private Animator _animator;
@@ -147,16 +145,6 @@ public class Player : MonoBehaviour, IPunObservable
             float health = (float)stream.ReceiveNext();
             _playerStat.SetHealth(health);
         }
-    }
-
-    public void AddScore(int amount)
-    {
-        if (!_photonView.IsMine)
-        {
-            return;
-        }
-
-        _score += amount;
     }
 
     public void AddStamina(float amount)

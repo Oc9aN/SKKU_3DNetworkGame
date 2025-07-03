@@ -8,6 +8,6 @@ public class ItemEffect_Score : ItemEffectBase
 
     public override void ApplyEffect(Player player)
     {
-        player.AddScore(amount);
+        ScoreManager.Instance.AddScore(amount);
     }
 }

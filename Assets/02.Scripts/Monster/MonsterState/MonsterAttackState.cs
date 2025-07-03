@@ -28,18 +28,25 @@ public class MonsterAttackState : IMonsterState
     public void Acting()
     {
         _attackTimer += Time.deltaTime;
-        if (_attackTimer > (1f / _monster.AttackTime) &&
-            Vector3.Distance(_monster.transform.position, _monster.Target.transform.position) < _monster.AttackRange)
+
+        if (_attackTimer < (1f / _monster.AttackTime))
+        {
+            return;
+        }
+        
+        if (Vector3.Distance(_monster.transform.position, _monster.Target.transform.position) < _monster.AttackRange)
         {
             // 공격
             Debug.Log("곰 공격");
             _monster.RequestAttackAnimation(Random.Range(1, 5));
             _attackTimer = 0f;
+            return;
         }
 
         if (Vector3.Distance(_monster.transform.position, _monster.Target.transform.position) > _monster.AttackRange)
         {
             _monster.ChangeState(EMonsterState.Trace);
+            return;
         }
     }
 
