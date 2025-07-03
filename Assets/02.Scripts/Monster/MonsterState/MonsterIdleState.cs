@@ -16,6 +16,7 @@ public class MonsterIdleState : IMonsterState
     {
         _idleTimer = 0f;
         _monster.Animator.SetBool("IsWalk", false);
+        _monster.Animator.SetBool("IsTrace", false);
     }
 
     public void Acting()

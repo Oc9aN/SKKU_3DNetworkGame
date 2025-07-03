@@ -41,6 +41,14 @@ public class Monster : MonoBehaviourPun, IDamaged, IAttackable, IPunObservable
     [SerializeField]
     private float _traceRange;
     public float TraceRange => _traceRange;
+    
+    [SerializeField]
+    private float _moveSpeed;
+    public float MoveSpeed => _moveSpeed;
+    
+    [SerializeField]
+    private float _traceSpeed;
+    public float TraceSpeed => _traceSpeed;
 
     [SerializeField]
     private float _respawnTime;

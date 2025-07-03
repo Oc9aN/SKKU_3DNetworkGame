@@ -14,7 +14,10 @@ public class MonsterTraceState : IMonsterState
         {
             _monster.ChangeState(EMonsterState.Patrol);
         }
-        _monster.Animator.SetBool("IsWalk", true);
+        _monster.Animator.SetBool("IsWalk", false);
+        _monster.Animator.SetBool("IsTrace", true);
+
+        _monster.NavMeshAgent.speed = _monster.TraceSpeed;
     }
 
     public void Acting()
@@ -26,7 +29,7 @@ public class MonsterTraceState : IMonsterState
         }
         
         // 전이 Attack
-        if (Vector3.Distance(_monster.transform.position, _monster.Target.transform.position) < _monster.AttackRange)
+        if (Vector3.Distance(_monster.transform.position, _monster.Target.transform.position) <= _monster.AttackRange)
         {
             _monster.ChangeState(EMonsterState.Attack);
             return;

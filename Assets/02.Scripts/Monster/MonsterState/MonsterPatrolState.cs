@@ -19,6 +19,9 @@ public class MonsterPatrolState : IMonsterState
         _monster.NavMeshAgent.SetDestination(_patrolPoint);
         
         _monster.Animator.SetBool("IsWalk", true);
+        _monster.Animator.SetBool("IsTrace", false);
+        
+        _monster.NavMeshAgent.speed = _monster.MoveSpeed;
     }
 
     public void Acting()

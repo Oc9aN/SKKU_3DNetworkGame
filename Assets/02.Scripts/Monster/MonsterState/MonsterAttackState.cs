@@ -13,16 +13,22 @@ public class MonsterAttackState : IMonsterState
     
     public void Enter()
     {
-        _attackTimer = 0f;
         _monster.Animator.SetBool("IsWalk", false);
+        _monster.Animator.SetBool("IsTrace", false);
+
+        _monster.NavMeshAgent.velocity = Vector3.zero;
         _monster.NavMeshAgent.isStopped = true;
         _monster.NavMeshAgent.ResetPath();
+        
+        Debug.Log("곰 공격");
+        _monster.RequestAttackAnimation(Random.Range(1, 5));
+        _attackTimer = 0f;
     }
 
     public void Acting()
     {
         _attackTimer += Time.deltaTime;
-        if (_attackTimer > _monster.AttackTime &&
+        if (_attackTimer > (1f / _monster.AttackTime) &&
             Vector3.Distance(_monster.transform.position, _monster.Target.transform.position) < _monster.AttackRange)
         {
             // 공격

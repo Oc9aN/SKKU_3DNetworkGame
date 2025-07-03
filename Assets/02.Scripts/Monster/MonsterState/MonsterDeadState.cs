@@ -15,6 +15,7 @@ public class MonsterDeadState : IMonsterState
     public void Enter()
     {
         _monster.Animator.SetBool("IsWalk", false);
+        _monster.Animator.SetBool("IsTrace", false);
         _monster.NavMeshAgent.isStopped = true;
         _monster.NavMeshAgent.ResetPath();
         
