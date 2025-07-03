@@ -21,7 +21,7 @@ public class Monster : MonoBehaviourPun, IDamaged, IAttackable
     private float _health;
     [SerializeField]
     private float _damage;
-    
+
     [Header("공격")]
     [SerializeField]
     private BoxCollider _attackCollider;
@@ -46,7 +46,7 @@ public class Monster : MonoBehaviourPun, IDamaged, IAttackable
     [SerializeField]
     private float _respawnTime;
     public float RespawnTime => _respawnTime;
-    
+
     [Header("FSM 정보")]
     [SerializeField]
     private ParticleSystem _hitPrefab;
@@ -92,6 +92,7 @@ public class Monster : MonoBehaviourPun, IDamaged, IAttackable
         {
             return;
         }
+
         Debug.Log($"{_state}에서 {newState}로 변환");
         _states[_state]?.Exit();
         _state = newState;
@@ -104,6 +105,7 @@ public class Monster : MonoBehaviourPun, IDamaged, IAttackable
         {
             return;
         }
+
         _states[_state]?.Acting();
     }
 
@@ -122,7 +124,7 @@ public class Monster : MonoBehaviourPun, IDamaged, IAttackable
 
     public void RequestAttackAnimation(int attackNumber)
     {
-        photonView.RPC(nameof(AttackAnimationTrigger),  RpcTarget.All, attackNumber);
+        photonView.RPC(nameof(AttackAnimationTrigger), RpcTarget.All, attackNumber);
     }
 
     [PunRPC]
@@ -133,9 +135,9 @@ public class Monster : MonoBehaviourPun, IDamaged, IAttackable
 
     public void RequestDeathAnimation()
     {
-        photonView.RPC(nameof(DeathAnimationTrigger),  RpcTarget.All);
+        photonView.RPC(nameof(DeathAnimationTrigger), RpcTarget.All);
     }
-    
+
     [PunRPC]
     private void DeathAnimationTrigger()
     {
@@ -146,7 +148,7 @@ public class Monster : MonoBehaviourPun, IDamaged, IAttackable
     public void Damaged(float damage, Vector3 hitPoint, int actorNumber)
     {
         Instantiate(_hitPrefab, hitPoint, Quaternion.identity);
-        
+
         _health -= damage;
 
         if (_health <= 0)
@@ -183,7 +185,7 @@ public class Monster : MonoBehaviourPun, IDamaged, IAttackable
         {
             return;
         }
-        
+
         var targetPhotonView = target.GetComponent<PhotonView>();
         targetPhotonView.RPC(nameof(IDamaged.Damaged), RpcTarget.All, _damage, hitPoint, photonView.Owner.ActorNumber);
     }

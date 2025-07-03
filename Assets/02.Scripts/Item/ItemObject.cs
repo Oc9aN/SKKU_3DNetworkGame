@@ -28,7 +28,8 @@ public class ItemObject : MonoBehaviourPun
         {
             var player = other.GetComponent<Player>();
 
-            if (player.PlayerState.Is(EPlayerState.Dead))
+            if (player.PlayerState.Is(EPlayerState.Dead)
+                || !player.GetComponent<PhotonView>().IsMine)
             {
                 return;
             }
