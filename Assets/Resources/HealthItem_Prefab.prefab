@@ -9796,7 +9796,7 @@ GameObject:
   - component: {fileID: -4774507865746873635}
   - component: {fileID: 935319851357456979}
   m_Layer: 0
-  m_Name: HealthItem
+  m_Name: HealthItem_Prefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

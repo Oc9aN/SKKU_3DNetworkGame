@@ -9796,7 +9796,7 @@ GameObject:
   - component: {fileID: -7481455706384695895}
   - component: {fileID: -8896521753864678268}
   m_Layer: 0
-  m_Name: StaminaItem
+  m_Name: StaminaItem_Prefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

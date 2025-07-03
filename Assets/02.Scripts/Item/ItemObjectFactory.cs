@@ -30,7 +30,7 @@ public class ItemObjectFactory : MonoSingleton<ItemObjectFactory>
     [PunRPC]
     private void CreateItem(EItemType itemType, Vector3 position)
     {
-        PhotonNetwork.InstantiateRoomObject($"{itemType}Item", position, Quaternion.identity);
+        PhotonNetwork.InstantiateRoomObject($"{itemType}Item_Prefab", position, Quaternion.identity);
     }
 
     public void RequestDelete(int viewId)

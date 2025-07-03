@@ -24,7 +24,7 @@ public class MonsterManager : MonoPunCallbacksSingleton<MonsterManager>
         if (PhotonNetwork.IsMasterClient)
         {
             // 곰 생성
-            PhotonNetwork.InstantiateRoomObject("Monster_Prefab", _spawnPoint.position, Quaternion.identity);
+            PhotonNetwork.InstantiateRoomObject("Bear_Prefab", _spawnPoint.position, Quaternion.identity);
         }
     }
 }
