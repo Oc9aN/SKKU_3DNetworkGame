@@ -21,7 +21,7 @@ public class PlayerWeaponAbility : PlayerAbility
 
     private void RefreshWeaponScale()
     {
-        float addedScale = (ScoreManager.Instance.Score / _weaponScaleUnit) * _weaponScaleFactor;
+        float addedScale = (ScoreManager.Instance.TotalScore / _weaponScaleUnit) * _weaponScaleFactor;
         
         _weapon.localScale = Vector3.one + Vector3.one * addedScale;
     }

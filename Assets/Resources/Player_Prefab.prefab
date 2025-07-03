@@ -620,7 +620,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _weapon: {fileID: 6083629071272926191}
   _weaponScaleFactor: 0.1
-  _weaponScaleUnit: 50
+  _weaponScaleUnit: 10000
 --- !u!114 &8576339317130911765
 MonoBehaviour:
   m_ObjectHideFlags: 0
