@@ -61,7 +61,7 @@ public class ScoreManager : MonoPunCallbacksSingleton<ScoreManager>
         // 커스텀 프로퍼티 수정
         Refresh();
     }
-
+    
     public void AddKill()
     {
         _killCount++;
