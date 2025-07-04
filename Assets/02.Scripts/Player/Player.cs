@@ -99,8 +99,9 @@ public class Player : MonoBehaviour, IPunObservable
         if (_photonView.IsMine)
         {
             _photonView.RPC(nameof(TriggerAnimation), RpcTarget.All, "Dead");
+            
             var killer = PhotonNetwork.CurrentRoom.GetPlayer(actorNumber);
-            _photonView.RPC(nameof(AddKill), killer);
+            _photonView.RPC(nameof(OnKill), killer, _photonView.Owner.ActorNumber);
         }
 
         foreach (var ability in GetComponents<PlayerAbility>())
@@ -170,8 +171,8 @@ public class Player : MonoBehaviour, IPunObservable
     }
 
     [PunRPC]
-    public void AddKill()
+    public void OnKill(int victimNumber)
     {
-        ScoreManager.Instance.AddKill();
+        ScoreManager.Instance.OnKill(victimNumber);
     }
 }

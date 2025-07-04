@@ -4,10 +4,10 @@ using UnityEngine;
 public class ItemEffect_Heal : ItemEffectBase
 {
     [SerializeField]
-    private float amount;
+    private float _amount;
 
     public override void ApplyEffect(Player player)
     {
-        player.AddHealth(amount);
+        player.AddHealth(_amount);
     }
 }

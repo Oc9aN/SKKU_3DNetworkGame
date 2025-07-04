@@ -53,11 +53,12 @@ public class PlayerManager : MonoSingleton<PlayerManager>
     private void OnPlayerDeath(Player player)
     {
         // 사망시 발생하는 외부 이벤트
-        int randomCount = Random.Range(1, 4);
-        for (int i = 0; i < randomCount; i++)
-        {
-            ItemObjectFactory.Instance.RequestCreate(EItemType.Score, player.transform.position + Vector3.up * 2f);
-        }
+        // 아이템 생성
+        // int randomCount = Random.Range(1, 4);
+        // for (int i = 0; i < randomCount; i++)
+        // {
+        //     ItemObjectFactory.Instance.RequestCreate(EItemType.Score, player.transform.position + Vector3.up * 2f);
+        // }
         int percent = Random.Range(0, 100);
         if (percent < 100)
         {
@@ -68,6 +69,14 @@ public class PlayerManager : MonoSingleton<PlayerManager>
         {
             ItemObjectFactory.Instance.RequestCreate(EItemType.Stamina, player.transform.position + new Vector3(Random.Range(0f, 1f), 0, Random.Range(0f, 1f)));
         }
+
+        // 점수의 절반은 아이템으로
+        int halfScore = ScoreManager.Instance.Score / 2;
+
+        ItemObjectFactory.Instance.RequestCreateScoreItemsByScore(halfScore,
+            player.transform.position + Vector3.up * 2f);
+        
+        ScoreManager.Instance.OnDeath();
         
         RespawnPlayer(player);
     }

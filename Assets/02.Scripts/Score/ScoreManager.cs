@@ -8,6 +8,9 @@ using Hashtable = ExitGames.Client.Photon.Hashtable;
 public class ScoreManager : MonoPunCallbacksSingleton<ScoreManager>
 {
     [SerializeField]
+    private ItemEffect_Score _scoreItemSO;
+    
+    [SerializeField]
     private int _killScore;
     public event Action OnScoreAdded;
     public event Action<List<KeyValuePair<string,int>>> OnDataChanged;
@@ -18,7 +21,6 @@ public class ScoreManager : MonoPunCallbacksSingleton<ScoreManager>
     public int Score => _score;
 
     private int _killCount;
-    public int KillCount => _killCount;
     
     private int _totalScore;
     public int TotalScore => _totalScore;
@@ -48,7 +50,7 @@ public class ScoreManager : MonoPunCallbacksSingleton<ScoreManager>
     private void Refresh()
     {
         Hashtable hashTable = new Hashtable();
-        _totalScore = KillCount * _killScore + _score;
+        _totalScore = _killCount * _killScore + _score;
         hashTable.Add("Score", _totalScore);
         PhotonNetwork.LocalPlayer.SetCustomProperties(hashTable);
         OnScoreAdded?.Invoke();
@@ -62,11 +64,23 @@ public class ScoreManager : MonoPunCallbacksSingleton<ScoreManager>
         Refresh();
     }
     
-    public void AddKill()
+    public void OnKill(int victimNumber)
     {
         _killCount++;
         
+        // 피해자의 점수 절반 가져오기
+        int halfScore = _scores[$"{PhotonNetwork.CurrentRoom.GetPlayer(victimNumber).NickName}_{victimNumber}"] / 2;
+        Debug.Log(halfScore);
+        _score += halfScore;
+        
         // 커스텀 프로퍼티 수정
+        Refresh();
+    }
+
+    public void OnDeath()
+    {
+        _score = 0;
+        
         Refresh();
     }
 }

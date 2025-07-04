@@ -4,10 +4,10 @@ using UnityEngine;
 public class ItemEffect_Stamina : ItemEffectBase
 {
     [SerializeField]
-    private float amount;
+    private float _amount;
 
     public override void ApplyEffect(Player player)
     {
-        player.AddStamina(amount);
+        player.AddStamina(_amount);
     }
 }

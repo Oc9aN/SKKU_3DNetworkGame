@@ -3684,7 +3684,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4373080667063482959, guid: 8205d36f5448674429e263cd4800fd0a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.3
+      value: -0.5
       objectReference: {fileID: 0}
     - target: {fileID: 4373080667063482959, guid: 8205d36f5448674429e263cd4800fd0a, type: 3}
       propertyPath: m_LocalPosition.z
@@ -17443,6 +17443,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9595d2e0bdb547949a1f23a971b9ff90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _score: {fileID: 11400000, guid: 3e0932ee289793e41baab45dde0d233c, type: 2}
 --- !u!114 &1644424123
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21782,6 +21783,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 205a4fb3993211b49aa1a5437db9e45a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _scoreItemSO: {fileID: 0}
   _killScore: 5000
 --- !u!4 &2108213753
 Transform:

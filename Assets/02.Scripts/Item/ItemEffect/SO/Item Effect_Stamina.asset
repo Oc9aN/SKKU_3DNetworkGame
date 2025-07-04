@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8373508c258147b5bcd5e2749e66e9cf, type: 3}
   m_Name: Item Effect_Stamina
   m_EditorClassIdentifier: 
-  amount: 20
+  _amount: 30
