@@ -129,26 +129,15 @@ public class Monster : MonoBehaviourPun, IDamaged, IAttackable, IPunObservable
         Gizmos.DrawSphere(transform.position, AttackRange); // 반투명 내부 채움
     }
 
-    public void RequestAttackAnimation(int attackNumber)
+    public void RequestTriggerAnimationRPC(string triggerName)
     {
-        photonView.RPC(nameof(AttackAnimationTrigger), RpcTarget.All, attackNumber);
+        photonView.RPC(nameof(TriggerAnimationRPC), RpcTarget.All, triggerName);
     }
 
     [PunRPC]
-    private void AttackAnimationTrigger(int attackNumber)
+    public void TriggerAnimationRPC(string triggerName)
     {
-        Animator.SetTrigger($"Attack{attackNumber}");
-    }
-
-    public void RequestDeathAnimation()
-    {
-        photonView.RPC(nameof(DeathAnimationTrigger), RpcTarget.All);
-    }
-
-    [PunRPC]
-    private void DeathAnimationTrigger()
-    {
-        Animator.SetTrigger("Death");
+        Animator.SetTrigger(triggerName);
     }
 
     [PunRPC]

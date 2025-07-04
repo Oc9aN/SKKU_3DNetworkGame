@@ -21,7 +21,7 @@ public class MonsterAttackState : IMonsterState
         _monster.NavMeshAgent.ResetPath();
         
         Debug.Log("곰 공격");
-        _monster.RequestAttackAnimation(Random.Range(1, 5));
+        _monster.RequestTriggerAnimationRPC($"Attack{Random.Range(1, 5)}");
         _attackTimer = 0f;
     }
 
@@ -38,7 +38,7 @@ public class MonsterAttackState : IMonsterState
         {
             // 공격
             Debug.Log("곰 공격");
-            _monster.RequestAttackAnimation(Random.Range(1, 5));
+            _monster.RequestTriggerAnimationRPC($"Attack{Random.Range(1, 5)}");
             _attackTimer = 0f;
             return;
         }

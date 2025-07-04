@@ -19,7 +19,7 @@ public class MonsterDeadState : IMonsterState
         _monster.NavMeshAgent.isStopped = true;
         _monster.NavMeshAgent.ResetPath();
         
-        _monster.RequestDeathAnimation();
+        _monster.RequestTriggerAnimationRPC("Death");
     }
 
     public void Acting()
