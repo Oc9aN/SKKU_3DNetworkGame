@@ -15,6 +15,11 @@ public class PlayerWeaponAbility : PlayerAbility
 
     private void OnScoreAdded()
     {
+        if (!_photonView.IsMine)
+        {
+            return;
+        }
+        
         // 무기 크기 변경
         RefreshWeaponScale();
     }
