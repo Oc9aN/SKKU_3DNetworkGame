@@ -25,7 +25,7 @@ public class PlayerManager : MonoSingleton<PlayerManager>
     public void CreatePlayer()
     {
         int randomIndex = Random.Range(0, _spawnPoints.Count);
-        var player = PhotonNetwork.Instantiate("Player_Prefab", _spawnPoints[randomIndex], Quaternion.identity);
+        var player = PhotonNetwork.Instantiate($"{PlayerSetting.CharacterType}Player_Prefab", _spawnPoints[randomIndex], Quaternion.identity);
 
         player.GetComponent<Player>().OnPlayerDeath += OnPlayerDeath;
         player.GetComponent<PlayerPresenter>().Init(UI_PlayerHUD);
