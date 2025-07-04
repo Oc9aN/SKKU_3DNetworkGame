@@ -27,8 +27,16 @@ public class ScoreManager : MonoPunCallbacksSingleton<ScoreManager>
 
     public override void OnJoinedRoom()
     {
-        // 커스텀 프로퍼티 초기화
         Refresh();
+    }
+
+    private void Start()
+    {
+        // 커스텀 프로퍼티 초기화
+        if (PhotonNetwork.InRoom)
+        {
+            Refresh();
+        }
     }
 
     // 플레이어의 커스텀 프로퍼티가 수정되면 호출되는 콜백함수

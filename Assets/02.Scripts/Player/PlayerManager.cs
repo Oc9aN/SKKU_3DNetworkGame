@@ -12,7 +12,7 @@ public class PlayerManager : MonoSingleton<PlayerManager>
 
     private List<Vector3> _spawnPoints;
 
-    private void Start()
+    protected override void Awake()
     {
         _spawnPoints = new List<Vector3>();
         foreach (var spawnTransform in SpawnPoints.GetComponentsInChildren<Transform>().Where(t => t != SpawnPoints.transform))

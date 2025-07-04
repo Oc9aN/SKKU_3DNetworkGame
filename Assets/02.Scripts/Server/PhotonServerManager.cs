@@ -6,7 +6,7 @@ using Photon.Pun;
 using Photon.Realtime;
 
 // 역할: 포톤 서버 관리자(서버 연결, 로비 입장, 방 입장, 게임 입장)
-public class PhotonServerManager : MonoBehaviourPunCallbacks
+public class PhotonServerManager : MonoPunCallbacksSingleton<PhotonServerManager>
 {
     // MonoBehaviourPunCallbacks : 유니티 이벤트 말고도 PUN 서버 이벤트를 받을 수 있다.
     private readonly string _gameVersion = "1.0.0";
@@ -54,7 +54,7 @@ public class PhotonServerManager : MonoBehaviourPunCallbacks
         Debug.Log($"InLobby: {PhotonNetwork.InLobby}");
 
         // 랜덤 방에 들어간다.
-        PhotonNetwork.JoinRandomRoom();
+        // PhotonNetwork.JoinRandomRoom();
     }
 
     // 방 입장 후 호출되는 함수
@@ -62,16 +62,21 @@ public class PhotonServerManager : MonoBehaviourPunCallbacks
     {
         Debug.Log($"방 입장 {PhotonNetwork.InRoom} : {PhotonNetwork.CurrentRoom.Name}");
         Debug.Log($"플레이어 수: {PhotonNetwork.CurrentRoom.PlayerCount}");
-        
-        var roomPlayers = PhotonNetwork.CurrentRoom.Players;
-        foreach (var pair in roomPlayers)
+
+        if (PhotonNetwork.IsMasterClient)
         {
-            Debug.Log($"{pair.Value.ActorNumber}: {pair.Value.NickName}");
-            // ActorNumber는 방에서 플레이어의 구별 ID
-            
-            // 진짜 고유 아이디
-            Debug.Log($"{pair.Value.UserId}"); // 유저의 고유 아이디
+            PhotonNetwork.LoadLevel("BattleScene");
         }
+        
+        // var roomPlayers = PhotonNetwork.CurrentRoom.Players;
+        // foreach (var pair in roomPlayers)
+        // {
+        //     Debug.Log($"{pair.Value.ActorNumber}: {pair.Value.NickName}");
+        //     // ActorNumber는 방에서 플레이어의 구별 ID
+        //     
+        //     // 진짜 고유 아이디
+        //     Debug.Log($"{pair.Value.UserId}"); // 유저의 고유 아이디
+        // }
     }
 
     // 방 입장에 실패하면 호출되는 함수
@@ -79,14 +84,14 @@ public class PhotonServerManager : MonoBehaviourPunCallbacks
     {
         Debug.Log($"랜덤 방 입장에 실패했습니다: {returnCode} : {message}");
 
-        // Room 속성을 정의
-        RoomOptions roomOptions = new RoomOptions();
-        roomOptions.MaxPlayers = 20;
-        roomOptions.IsOpen = true;    // 룸 입장 가능 여부
-        roomOptions.IsVisible = true; // 로비(채널)에서 룸 목록에 노출 여부
-        
-        // Room 생성
-        PhotonNetwork.CreateRoom("test", roomOptions);
+        // // Room 속성을 정의
+        // RoomOptions roomOptions = new RoomOptions();
+        // roomOptions.MaxPlayers = 20;
+        // roomOptions.IsOpen = true;    // 룸 입장 가능 여부
+        // roomOptions.IsVisible = true; // 로비(채널)에서 룸 목록에 노출 여부
+        //
+        // // Room 생성
+        // PhotonNetwork.CreateRoom("test", roomOptions);
     }
 
     // 방 생성 실패에 호출되는 함수

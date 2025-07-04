@@ -11,9 +11,32 @@ public class RoomManager : MonoPunCallbacksSingleton<RoomManager>
     public event Action<string> OnPlayerEntered;
     public event Action<string> OnPlayerExit;
     public event Action<string, string> OnPlayerKilled;
-    
+
+    bool _isInitialized = false;
+
     public override void OnJoinedRoom()
     {
+        Init();
+    }
+
+    private void Start()
+    {
+        Init();
+    }
+    
+    private void Init()
+    {
+        if (_isInitialized)
+        {
+            return;
+        }
+
+        if (!PhotonNetwork.InRoom)
+        {
+            return;
+        }
+
+        _isInitialized = true;
         // 플레이어 생성
         PlayerManager.Instance.CreatePlayer();
 
