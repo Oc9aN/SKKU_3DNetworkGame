@@ -203,7 +203,7 @@ public class Monster : MonoBehaviourPun, IDamaged, IAttackable, IPunObservable
         }
 
         var targetPhotonView = target.GetComponent<PhotonView>();
-        targetPhotonView.RPC(nameof(IDamaged.Damaged), RpcTarget.All, _damage, hitPoint, photonView.Owner.ActorNumber);
+        targetPhotonView.RPC(nameof(IDamaged.Damaged), RpcTarget.All, _damage, hitPoint, -1);
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)

@@ -87,32 +87,53 @@ public class Player : MonoBehaviour, IPunObservable
         PlayerState.ChangeState(EPlayerState.Live);
     }
 
-    public void OnDead(int actorNumber)
+    public void OnDead(int killerActorNumber)
     {
-        _playerStat.SetHealth(0f);
+        // 이미 죽은 상태면 무시
+        if (PlayerState.Is(EPlayerState.Dead))
+            return;
 
-        _characterController.enabled = false;
+        // 체력 0, 상태 변경
+        _playerStat.SetHealth(0f);
         PlayerState.ChangeState(EPlayerState.Dead);
 
-        RoomManager.Instance.OnPlayerDeath(_photonView.Owner.ActorNumber, actorNumber);
+        // 캐릭터 비활성화
+        _characterController.enabled = false;
 
-        if (_photonView.IsMine)
-        {
-            _photonView.RPC(nameof(TriggerAnimation), RpcTarget.All, "Dead");
-            
-            var killer = PhotonNetwork.CurrentRoom.GetPlayer(actorNumber);
-            _photonView.RPC(nameof(OnKill), killer, _photonView.Owner.ActorNumber);
-        }
-
+        // 사망 시 비활성화될 어빌리티 처리
         foreach (var ability in GetComponents<PlayerAbility>())
         {
             if (ability is IDisableOnDeath)
                 ability.enabled = false;
         }
 
+        // 내 캐릭터일 때만 애니메이션 트리거
+        if (_photonView.IsMine)
+        {
+            _photonView.RPC(nameof(TriggerAnimation), RpcTarget.All, "Dead");
+        }
+
+        // 킬러가 있을 때만 점수/킬 처리
+        if (killerActorNumber > 0)
+        {
+            // 방 전체에 사망 이벤트 통보
+            RoomManager.Instance.OnPlayerDeath(_photonView.Owner.ActorNumber, killerActorNumber);
+
+            // 내 캐릭터일 경우 킬러에게 킬 이벤트 전달
+            if (_photonView.IsMine)
+            {
+                var killer = PhotonNetwork.CurrentRoom.GetPlayer(killerActorNumber);
+                if (killer != null)
+                {
+                    _photonView.RPC(nameof(OnKill), killer, _photonView.Owner.ActorNumber);
+                }
+            }
+        }
+
+        // 공통 사망 이벤트
         OnPlayerDeath?.Invoke(this);
     }
-
+    
     [PunRPC]
     public void Respawn(Vector3 spawnPosition)
     {
